@@ -1,0 +1,23 @@
+Follow(M)={ '(', '+' , '-' , ';' , 'ID' , 'character' , 'if' , 'integer' , 'while' , '{'  }
+Follow(N)={ 'else' }
+Follow(S)={ '!EOF!' }
+Follow(additiveExp)={ '!=', '&&' , '+' , '-' , '<' , '<=' , '==' , '>' , '>='  }
+Follow(assignmentExp)={ ')', ',' , ';'  }
+Follow(compoundStatement)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'else' , 'if' , 'integer' , 'while' , '{' , '}'  }
+Follow(constant)={ '*', '+' , '-' , '/'  }
+Follow(declaration)={ '(', '+' , '-' , ';' , 'ID' , 'character' , 'if' , 'integer' , 'while' , '{' , '}'  }
+Follow(equalityExp)={ '!=', '&&' , ',' , ';' , '==' , '||'  }
+Follow(expression)={ ')', ',' , ';'  }
+Follow(expressionStatement)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'else' , 'if' , 'integer' , 'while' , '{' , '}'  }
+Follow(initDeclarator)={ ';' }
+Follow(logicalAndExp)={ '&&', ',' , ';' , '||'  }
+Follow(logicalOrExp)={ '||' }
+Follow(multiplicativeExp)={ '!=', '*' , '+' , '-' , '/' , '<' , '<=' , '==' , '>' , '>='  }
+Follow(primaryExp)={ '!=', '*' , '+' , '-' , '/' , '<' , '<=' , '==' , '>' , '>='  }
+Follow(relationalExp)={ '!=', '&&' , '<' , '<=' , '==' , '>' , '>='  }
+Follow(selectionStatement)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'else' , 'if' , 'integer' , 'while' , '{' , '}'  }
+Follow(statement)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'else' , 'if' , 'integer' , 'while' , '{' , '}'  }
+Follow(statements)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'if' , 'integer' , 'while' , '{' , '}'  }
+Follow(typeSpecifier)={ ';', 'ID'  }
+Follow(unaryExp)={ '!=', '*' , '+' , '-' , '/' , '<' , '<=' , '==' , '>' , '>='  }
+Follow(whileStatement)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'else' , 'if' , 'integer' , 'while' , '{' , '}'  }

@@ -1,0 +1,1476 @@
+状态I0:
+  产生式打点项目:
+     S -> · statements
+     statements -> · statements M statement
+     statements -> ·
+  GOTO状态转换:
+     GOTO(0,statements)=1
+
+
+状态I1:
+  产生式打点项目:
+     S -> statements ·
+     statements -> statements · M statement
+     M -> ·
+  GOTO状态转换:
+     GOTO(1,M)=2
+
+
+状态I2:
+  产生式打点项目:
+     statements -> statements M · statement
+     statement -> · selectionStatement
+     statement -> · whileStatement
+     statement -> · compoundStatement
+     statement -> · expressionStatement
+     selectionStatement -> · if ( expression ) M statement
+     selectionStatement -> · if ( expression ) M statement N else M statement
+     whileStatement -> · while M ( expression ) M statement
+     compoundStatement -> · { declaration statements }
+     expressionStatement -> · expression ;
+     expressionStatement -> · ;
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(2,()=25
+     GOTO(2,+)=23
+     GOTO(2,-)=22
+     GOTO(2,;)=12
+     GOTO(2,ID)=15
+     GOTO(2,additiveExp)=18
+     GOTO(2,assignmentExp)=13
+     GOTO(2,character)=27
+     GOTO(2,compoundStatement)=6
+     GOTO(2,constant)=24
+     GOTO(2,equalityExp)=16
+     GOTO(2,expression)=11
+     GOTO(2,expressionStatement)=7
+     GOTO(2,if)=8
+     GOTO(2,integer)=26
+     GOTO(2,logicalAndExp)=14
+     GOTO(2,multiplicativeExp)=19
+     GOTO(2,primaryExp)=21
+     GOTO(2,relationalExp)=17
+     GOTO(2,selectionStatement)=4
+     GOTO(2,statement)=3
+     GOTO(2,unaryExp)=20
+     GOTO(2,while)=9
+     GOTO(2,whileStatement)=5
+     GOTO(2,{)=10
+
+
+状态I3:
+  产生式打点项目:
+     statements -> statements M statement ·
+  GOTO状态转换:
+
+
+状态I4:
+  产生式打点项目:
+     statement -> selectionStatement ·
+  GOTO状态转换:
+
+
+状态I5:
+  产生式打点项目:
+     statement -> whileStatement ·
+  GOTO状态转换:
+
+
+状态I6:
+  产生式打点项目:
+     statement -> compoundStatement ·
+  GOTO状态转换:
+
+
+状态I7:
+  产生式打点项目:
+     statement -> expressionStatement ·
+  GOTO状态转换:
+
+
+状态I8:
+  产生式打点项目:
+     selectionStatement -> if · ( expression ) M statement
+     selectionStatement -> if · ( expression ) M statement N else M statement
+  GOTO状态转换:
+     GOTO(8,()=28
+
+
+状态I9:
+  产生式打点项目:
+     whileStatement -> while · M ( expression ) M statement
+     M -> ·
+  GOTO状态转换:
+     GOTO(9,M)=29
+
+
+状态I10:
+  产生式打点项目:
+     compoundStatement -> { · declaration statements }
+     declaration -> · typeSpecifier initDeclarator ; declaration
+     declaration -> · typeSpecifier ;
+     declaration -> ·
+     typeSpecifier -> · int
+     typeSpecifier -> · char
+  GOTO状态转换:
+     GOTO(10,char)=33
+     GOTO(10,declaration)=30
+     GOTO(10,int)=32
+     GOTO(10,typeSpecifier)=31
+
+
+状态I11:
+  产生式打点项目:
+     expressionStatement -> expression · ;
+     expression -> expression · , assignmentExp
+  GOTO状态转换:
+     GOTO(11,,)=35
+     GOTO(11,;)=34
+
+
+状态I12:
+  产生式打点项目:
+     expressionStatement -> ; ·
+  GOTO状态转换:
+
+
+状态I13:
+  产生式打点项目:
+     expression -> assignmentExp ·
+  GOTO状态转换:
+
+
+状态I14:
+  产生式打点项目:
+     assignmentExp -> logicalAndExp ·
+     logicalAndExp -> logicalAndExp · && M equalityExp
+  GOTO状态转换:
+     GOTO(14,&&)=36
+
+
+状态I15:
+  产生式打点项目:
+     assignmentExp -> ID · = logicalAndExp
+     primaryExp -> ID ·
+  GOTO状态转换:
+     GOTO(15,=)=37
+
+
+状态I16:
+  产生式打点项目:
+     logicalAndExp -> equalityExp ·
+     equalityExp -> equalityExp · == relationalExp
+     equalityExp -> equalityExp · != relationalExp
+  GOTO状态转换:
+     GOTO(16,!=)=39
+     GOTO(16,==)=38
+
+
+状态I17:
+  产生式打点项目:
+     equalityExp -> relationalExp ·
+     relationalExp -> relationalExp · < additiveExp
+     relationalExp -> relationalExp · <= additiveExp
+     relationalExp -> relationalExp · > additiveExp
+     relationalExp -> relationalExp · >= additiveExp
+  GOTO状态转换:
+     GOTO(17,<)=40
+     GOTO(17,<=)=41
+     GOTO(17,>)=42
+     GOTO(17,>=)=43
+
+
+状态I18:
+  产生式打点项目:
+     relationalExp -> additiveExp ·
+     additiveExp -> additiveExp · + multiplicativeExp
+     additiveExp -> additiveExp · - multiplicativeExp
+  GOTO状态转换:
+     GOTO(18,+)=44
+     GOTO(18,-)=45
+
+
+状态I19:
+  产生式打点项目:
+     additiveExp -> multiplicativeExp ·
+     multiplicativeExp -> multiplicativeExp · * unaryExp
+     multiplicativeExp -> multiplicativeExp · / unaryExp
+  GOTO状态转换:
+     GOTO(19,*)=46
+     GOTO(19,/)=47
+
+
+状态I20:
+  产生式打点项目:
+     multiplicativeExp -> unaryExp ·
+  GOTO状态转换:
+
+
+状态I21:
+  产生式打点项目:
+     unaryExp -> primaryExp ·
+  GOTO状态转换:
+
+
+状态I22:
+  产生式打点项目:
+     unaryExp -> - · primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(22,()=25
+     GOTO(22,ID)=49
+     GOTO(22,character)=27
+     GOTO(22,constant)=24
+     GOTO(22,integer)=26
+     GOTO(22,primaryExp)=48
+
+
+状态I23:
+  产生式打点项目:
+     unaryExp -> + · primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(23,()=25
+     GOTO(23,ID)=49
+     GOTO(23,character)=27
+     GOTO(23,constant)=24
+     GOTO(23,integer)=26
+     GOTO(23,primaryExp)=50
+
+
+状态I24:
+  产生式打点项目:
+     primaryExp -> constant ·
+  GOTO状态转换:
+
+
+状态I25:
+  产生式打点项目:
+     primaryExp -> ( · expression )
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(25,()=25
+     GOTO(25,+)=23
+     GOTO(25,-)=22
+     GOTO(25,ID)=15
+     GOTO(25,additiveExp)=18
+     GOTO(25,assignmentExp)=13
+     GOTO(25,character)=27
+     GOTO(25,constant)=24
+     GOTO(25,equalityExp)=16
+     GOTO(25,expression)=51
+     GOTO(25,integer)=26
+     GOTO(25,logicalAndExp)=14
+     GOTO(25,multiplicativeExp)=19
+     GOTO(25,primaryExp)=21
+     GOTO(25,relationalExp)=17
+     GOTO(25,unaryExp)=20
+
+
+状态I26:
+  产生式打点项目:
+     constant -> integer ·
+  GOTO状态转换:
+
+
+状态I27:
+  产生式打点项目:
+     constant -> character ·
+  GOTO状态转换:
+
+
+状态I28:
+  产生式打点项目:
+     selectionStatement -> if ( · expression ) M statement
+     selectionStatement -> if ( · expression ) M statement N else M statement
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(28,()=25
+     GOTO(28,+)=23
+     GOTO(28,-)=22
+     GOTO(28,ID)=15
+     GOTO(28,additiveExp)=18
+     GOTO(28,assignmentExp)=13
+     GOTO(28,character)=27
+     GOTO(28,constant)=24
+     GOTO(28,equalityExp)=16
+     GOTO(28,expression)=52
+     GOTO(28,integer)=26
+     GOTO(28,logicalAndExp)=14
+     GOTO(28,multiplicativeExp)=19
+     GOTO(28,primaryExp)=21
+     GOTO(28,relationalExp)=17
+     GOTO(28,unaryExp)=20
+
+
+状态I29:
+  产生式打点项目:
+     whileStatement -> while M · ( expression ) M statement
+  GOTO状态转换:
+     GOTO(29,()=53
+
+
+状态I30:
+  产生式打点项目:
+     compoundStatement -> { declaration · statements }
+     statements -> · statements M statement
+     statements -> ·
+  GOTO状态转换:
+     GOTO(30,statements)=54
+
+
+状态I31:
+  产生式打点项目:
+     declaration -> typeSpecifier · initDeclarator ; declaration
+     declaration -> typeSpecifier · ;
+     initDeclarator -> · ID
+     initDeclarator -> · ID = assignmentExp
+  GOTO状态转换:
+     GOTO(31,;)=56
+     GOTO(31,ID)=57
+     GOTO(31,initDeclarator)=55
+
+
+状态I32:
+  产生式打点项目:
+     typeSpecifier -> int ·
+  GOTO状态转换:
+
+
+状态I33:
+  产生式打点项目:
+     typeSpecifier -> char ·
+  GOTO状态转换:
+
+
+状态I34:
+  产生式打点项目:
+     expressionStatement -> expression ; ·
+  GOTO状态转换:
+
+
+状态I35:
+  产生式打点项目:
+     expression -> expression , · assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(35,()=25
+     GOTO(35,+)=23
+     GOTO(35,-)=22
+     GOTO(35,ID)=15
+     GOTO(35,additiveExp)=18
+     GOTO(35,assignmentExp)=58
+     GOTO(35,character)=27
+     GOTO(35,constant)=24
+     GOTO(35,equalityExp)=16
+     GOTO(35,integer)=26
+     GOTO(35,logicalAndExp)=14
+     GOTO(35,multiplicativeExp)=19
+     GOTO(35,primaryExp)=21
+     GOTO(35,relationalExp)=17
+     GOTO(35,unaryExp)=20
+
+
+状态I36:
+  产生式打点项目:
+     logicalAndExp -> logicalAndExp && · M equalityExp
+     M -> ·
+  GOTO状态转换:
+     GOTO(36,M)=59
+
+
+状态I37:
+  产生式打点项目:
+     assignmentExp -> ID = · logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(37,()=25
+     GOTO(37,+)=23
+     GOTO(37,-)=22
+     GOTO(37,ID)=49
+     GOTO(37,additiveExp)=18
+     GOTO(37,character)=27
+     GOTO(37,constant)=24
+     GOTO(37,equalityExp)=16
+     GOTO(37,integer)=26
+     GOTO(37,logicalAndExp)=60
+     GOTO(37,multiplicativeExp)=19
+     GOTO(37,primaryExp)=21
+     GOTO(37,relationalExp)=17
+     GOTO(37,unaryExp)=20
+
+
+状态I38:
+  产生式打点项目:
+     equalityExp -> equalityExp == · relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(38,()=25
+     GOTO(38,+)=23
+     GOTO(38,-)=22
+     GOTO(38,ID)=49
+     GOTO(38,additiveExp)=18
+     GOTO(38,character)=27
+     GOTO(38,constant)=24
+     GOTO(38,integer)=26
+     GOTO(38,multiplicativeExp)=19
+     GOTO(38,primaryExp)=21
+     GOTO(38,relationalExp)=61
+     GOTO(38,unaryExp)=20
+
+
+状态I39:
+  产生式打点项目:
+     equalityExp -> equalityExp != · relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(39,()=25
+     GOTO(39,+)=23
+     GOTO(39,-)=22
+     GOTO(39,ID)=49
+     GOTO(39,additiveExp)=18
+     GOTO(39,character)=27
+     GOTO(39,constant)=24
+     GOTO(39,integer)=26
+     GOTO(39,multiplicativeExp)=19
+     GOTO(39,primaryExp)=21
+     GOTO(39,relationalExp)=62
+     GOTO(39,unaryExp)=20
+
+
+状态I40:
+  产生式打点项目:
+     relationalExp -> relationalExp < · additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(40,()=25
+     GOTO(40,+)=23
+     GOTO(40,-)=22
+     GOTO(40,ID)=49
+     GOTO(40,additiveExp)=63
+     GOTO(40,character)=27
+     GOTO(40,constant)=24
+     GOTO(40,integer)=26
+     GOTO(40,multiplicativeExp)=19
+     GOTO(40,primaryExp)=21
+     GOTO(40,unaryExp)=20
+
+
+状态I41:
+  产生式打点项目:
+     relationalExp -> relationalExp <= · additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(41,()=25
+     GOTO(41,+)=23
+     GOTO(41,-)=22
+     GOTO(41,ID)=49
+     GOTO(41,additiveExp)=64
+     GOTO(41,character)=27
+     GOTO(41,constant)=24
+     GOTO(41,integer)=26
+     GOTO(41,multiplicativeExp)=19
+     GOTO(41,primaryExp)=21
+     GOTO(41,unaryExp)=20
+
+
+状态I42:
+  产生式打点项目:
+     relationalExp -> relationalExp > · additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(42,()=25
+     GOTO(42,+)=23
+     GOTO(42,-)=22
+     GOTO(42,ID)=49
+     GOTO(42,additiveExp)=65
+     GOTO(42,character)=27
+     GOTO(42,constant)=24
+     GOTO(42,integer)=26
+     GOTO(42,multiplicativeExp)=19
+     GOTO(42,primaryExp)=21
+     GOTO(42,unaryExp)=20
+
+
+状态I43:
+  产生式打点项目:
+     relationalExp -> relationalExp >= · additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(43,()=25
+     GOTO(43,+)=23
+     GOTO(43,-)=22
+     GOTO(43,ID)=49
+     GOTO(43,additiveExp)=66
+     GOTO(43,character)=27
+     GOTO(43,constant)=24
+     GOTO(43,integer)=26
+     GOTO(43,multiplicativeExp)=19
+     GOTO(43,primaryExp)=21
+     GOTO(43,unaryExp)=20
+
+
+状态I44:
+  产生式打点项目:
+     additiveExp -> additiveExp + · multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(44,()=25
+     GOTO(44,+)=23
+     GOTO(44,-)=22
+     GOTO(44,ID)=49
+     GOTO(44,character)=27
+     GOTO(44,constant)=24
+     GOTO(44,integer)=26
+     GOTO(44,multiplicativeExp)=67
+     GOTO(44,primaryExp)=21
+     GOTO(44,unaryExp)=20
+
+
+状态I45:
+  产生式打点项目:
+     additiveExp -> additiveExp - · multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(45,()=25
+     GOTO(45,+)=23
+     GOTO(45,-)=22
+     GOTO(45,ID)=49
+     GOTO(45,character)=27
+     GOTO(45,constant)=24
+     GOTO(45,integer)=26
+     GOTO(45,multiplicativeExp)=68
+     GOTO(45,primaryExp)=21
+     GOTO(45,unaryExp)=20
+
+
+状态I46:
+  产生式打点项目:
+     multiplicativeExp -> multiplicativeExp * · unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(46,()=25
+     GOTO(46,+)=23
+     GOTO(46,-)=22
+     GOTO(46,ID)=49
+     GOTO(46,character)=27
+     GOTO(46,constant)=24
+     GOTO(46,integer)=26
+     GOTO(46,primaryExp)=21
+     GOTO(46,unaryExp)=69
+
+
+状态I47:
+  产生式打点项目:
+     multiplicativeExp -> multiplicativeExp / · unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(47,()=25
+     GOTO(47,+)=23
+     GOTO(47,-)=22
+     GOTO(47,ID)=49
+     GOTO(47,character)=27
+     GOTO(47,constant)=24
+     GOTO(47,integer)=26
+     GOTO(47,primaryExp)=21
+     GOTO(47,unaryExp)=70
+
+
+状态I48:
+  产生式打点项目:
+     unaryExp -> - primaryExp ·
+  GOTO状态转换:
+
+
+状态I49:
+  产生式打点项目:
+     primaryExp -> ID ·
+  GOTO状态转换:
+
+
+状态I50:
+  产生式打点项目:
+     unaryExp -> + primaryExp ·
+  GOTO状态转换:
+
+
+状态I51:
+  产生式打点项目:
+     primaryExp -> ( expression · )
+     expression -> expression · , assignmentExp
+  GOTO状态转换:
+     GOTO(51,))=71
+     GOTO(51,,)=35
+
+
+状态I52:
+  产生式打点项目:
+     selectionStatement -> if ( expression · ) M statement
+     selectionStatement -> if ( expression · ) M statement N else M statement
+     expression -> expression · , assignmentExp
+  GOTO状态转换:
+     GOTO(52,))=72
+     GOTO(52,,)=35
+
+
+状态I53:
+  产生式打点项目:
+     whileStatement -> while M ( · expression ) M statement
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(53,()=25
+     GOTO(53,+)=23
+     GOTO(53,-)=22
+     GOTO(53,ID)=15
+     GOTO(53,additiveExp)=18
+     GOTO(53,assignmentExp)=13
+     GOTO(53,character)=27
+     GOTO(53,constant)=24
+     GOTO(53,equalityExp)=16
+     GOTO(53,expression)=73
+     GOTO(53,integer)=26
+     GOTO(53,logicalAndExp)=14
+     GOTO(53,multiplicativeExp)=19
+     GOTO(53,primaryExp)=21
+     GOTO(53,relationalExp)=17
+     GOTO(53,unaryExp)=20
+
+
+状态I54:
+  产生式打点项目:
+     compoundStatement -> { declaration statements · }
+     statements -> statements · M statement
+     M -> ·
+  GOTO状态转换:
+     GOTO(54,M)=2
+     GOTO(54,})=74
+
+
+状态I55:
+  产生式打点项目:
+     declaration -> typeSpecifier initDeclarator · ; declaration
+  GOTO状态转换:
+     GOTO(55,;)=75
+
+
+状态I56:
+  产生式打点项目:
+     declaration -> typeSpecifier ; ·
+  GOTO状态转换:
+
+
+状态I57:
+  产生式打点项目:
+     initDeclarator -> ID ·
+     initDeclarator -> ID · = assignmentExp
+  GOTO状态转换:
+     GOTO(57,=)=76
+
+
+状态I58:
+  产生式打点项目:
+     expression -> expression , assignmentExp ·
+  GOTO状态转换:
+
+
+状态I59:
+  产生式打点项目:
+     logicalAndExp -> logicalAndExp && M · equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(59,()=25
+     GOTO(59,+)=23
+     GOTO(59,-)=22
+     GOTO(59,ID)=49
+     GOTO(59,additiveExp)=18
+     GOTO(59,character)=27
+     GOTO(59,constant)=24
+     GOTO(59,equalityExp)=77
+     GOTO(59,integer)=26
+     GOTO(59,multiplicativeExp)=19
+     GOTO(59,primaryExp)=21
+     GOTO(59,relationalExp)=17
+     GOTO(59,unaryExp)=20
+
+
+状态I60:
+  产生式打点项目:
+     assignmentExp -> ID = logicalAndExp ·
+     logicalAndExp -> logicalAndExp · && M equalityExp
+  GOTO状态转换:
+     GOTO(60,&&)=36
+
+
+状态I61:
+  产生式打点项目:
+     equalityExp -> equalityExp == relationalExp ·
+     relationalExp -> relationalExp · < additiveExp
+     relationalExp -> relationalExp · <= additiveExp
+     relationalExp -> relationalExp · > additiveExp
+     relationalExp -> relationalExp · >= additiveExp
+  GOTO状态转换:
+     GOTO(61,<)=40
+     GOTO(61,<=)=41
+     GOTO(61,>)=42
+     GOTO(61,>=)=43
+
+
+状态I62:
+  产生式打点项目:
+     equalityExp -> equalityExp != relationalExp ·
+     relationalExp -> relationalExp · < additiveExp
+     relationalExp -> relationalExp · <= additiveExp
+     relationalExp -> relationalExp · > additiveExp
+     relationalExp -> relationalExp · >= additiveExp
+  GOTO状态转换:
+     GOTO(62,<)=40
+     GOTO(62,<=)=41
+     GOTO(62,>)=42
+     GOTO(62,>=)=43
+
+
+状态I63:
+  产生式打点项目:
+     relationalExp -> relationalExp < additiveExp ·
+     additiveExp -> additiveExp · + multiplicativeExp
+     additiveExp -> additiveExp · - multiplicativeExp
+  GOTO状态转换:
+     GOTO(63,+)=44
+     GOTO(63,-)=45
+
+
+状态I64:
+  产生式打点项目:
+     relationalExp -> relationalExp <= additiveExp ·
+     additiveExp -> additiveExp · + multiplicativeExp
+     additiveExp -> additiveExp · - multiplicativeExp
+  GOTO状态转换:
+     GOTO(64,+)=44
+     GOTO(64,-)=45
+
+
+状态I65:
+  产生式打点项目:
+     relationalExp -> relationalExp > additiveExp ·
+     additiveExp -> additiveExp · + multiplicativeExp
+     additiveExp -> additiveExp · - multiplicativeExp
+  GOTO状态转换:
+     GOTO(65,+)=44
+     GOTO(65,-)=45
+
+
+状态I66:
+  产生式打点项目:
+     relationalExp -> relationalExp >= additiveExp ·
+     additiveExp -> additiveExp · + multiplicativeExp
+     additiveExp -> additiveExp · - multiplicativeExp
+  GOTO状态转换:
+     GOTO(66,+)=44
+     GOTO(66,-)=45
+
+
+状态I67:
+  产生式打点项目:
+     additiveExp -> additiveExp + multiplicativeExp ·
+     multiplicativeExp -> multiplicativeExp · * unaryExp
+     multiplicativeExp -> multiplicativeExp · / unaryExp
+  GOTO状态转换:
+     GOTO(67,*)=46
+     GOTO(67,/)=47
+
+
+状态I68:
+  产生式打点项目:
+     additiveExp -> additiveExp - multiplicativeExp ·
+     multiplicativeExp -> multiplicativeExp · * unaryExp
+     multiplicativeExp -> multiplicativeExp · / unaryExp
+  GOTO状态转换:
+     GOTO(68,*)=46
+     GOTO(68,/)=47
+
+
+状态I69:
+  产生式打点项目:
+     multiplicativeExp -> multiplicativeExp * unaryExp ·
+  GOTO状态转换:
+
+
+状态I70:
+  产生式打点项目:
+     multiplicativeExp -> multiplicativeExp / unaryExp ·
+  GOTO状态转换:
+
+
+状态I71:
+  产生式打点项目:
+     primaryExp -> ( expression ) ·
+  GOTO状态转换:
+
+
+状态I72:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) · M statement
+     selectionStatement -> if ( expression ) · M statement N else M statement
+     M -> ·
+  GOTO状态转换:
+     GOTO(72,M)=78
+
+
+状态I73:
+  产生式打点项目:
+     whileStatement -> while M ( expression · ) M statement
+     expression -> expression · , assignmentExp
+  GOTO状态转换:
+     GOTO(73,))=79
+     GOTO(73,,)=35
+
+
+状态I74:
+  产生式打点项目:
+     compoundStatement -> { declaration statements } ·
+  GOTO状态转换:
+
+
+状态I75:
+  产生式打点项目:
+     declaration -> typeSpecifier initDeclarator ; · declaration
+     declaration -> · typeSpecifier initDeclarator ; declaration
+     declaration -> · typeSpecifier ;
+     declaration -> ·
+     typeSpecifier -> · int
+     typeSpecifier -> · char
+  GOTO状态转换:
+     GOTO(75,char)=33
+     GOTO(75,declaration)=80
+     GOTO(75,int)=32
+     GOTO(75,typeSpecifier)=31
+
+
+状态I76:
+  产生式打点项目:
+     initDeclarator -> ID = · assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(76,()=25
+     GOTO(76,+)=23
+     GOTO(76,-)=22
+     GOTO(76,ID)=15
+     GOTO(76,additiveExp)=18
+     GOTO(76,assignmentExp)=81
+     GOTO(76,character)=27
+     GOTO(76,constant)=24
+     GOTO(76,equalityExp)=16
+     GOTO(76,integer)=26
+     GOTO(76,logicalAndExp)=14
+     GOTO(76,multiplicativeExp)=19
+     GOTO(76,primaryExp)=21
+     GOTO(76,relationalExp)=17
+     GOTO(76,unaryExp)=20
+
+
+状态I77:
+  产生式打点项目:
+     logicalAndExp -> logicalAndExp && M equalityExp ·
+     equalityExp -> equalityExp · == relationalExp
+     equalityExp -> equalityExp · != relationalExp
+  GOTO状态转换:
+     GOTO(77,!=)=39
+     GOTO(77,==)=38
+
+
+状态I78:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) M · statement
+     selectionStatement -> if ( expression ) M · statement N else M statement
+     statement -> · selectionStatement
+     statement -> · whileStatement
+     statement -> · compoundStatement
+     statement -> · expressionStatement
+     selectionStatement -> · if ( expression ) M statement
+     selectionStatement -> · if ( expression ) M statement N else M statement
+     whileStatement -> · while M ( expression ) M statement
+     compoundStatement -> · { declaration statements }
+     expressionStatement -> · expression ;
+     expressionStatement -> · ;
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(78,()=25
+     GOTO(78,+)=23
+     GOTO(78,-)=22
+     GOTO(78,;)=12
+     GOTO(78,ID)=15
+     GOTO(78,additiveExp)=18
+     GOTO(78,assignmentExp)=13
+     GOTO(78,character)=27
+     GOTO(78,compoundStatement)=6
+     GOTO(78,constant)=24
+     GOTO(78,equalityExp)=16
+     GOTO(78,expression)=11
+     GOTO(78,expressionStatement)=7
+     GOTO(78,if)=8
+     GOTO(78,integer)=26
+     GOTO(78,logicalAndExp)=14
+     GOTO(78,multiplicativeExp)=19
+     GOTO(78,primaryExp)=21
+     GOTO(78,relationalExp)=17
+     GOTO(78,selectionStatement)=4
+     GOTO(78,statement)=82
+     GOTO(78,unaryExp)=20
+     GOTO(78,while)=9
+     GOTO(78,whileStatement)=5
+     GOTO(78,{)=10
+
+
+状态I79:
+  产生式打点项目:
+     whileStatement -> while M ( expression ) · M statement
+     M -> ·
+  GOTO状态转换:
+     GOTO(79,M)=83
+
+
+状态I80:
+  产生式打点项目:
+     declaration -> typeSpecifier initDeclarator ; declaration ·
+  GOTO状态转换:
+
+
+状态I81:
+  产生式打点项目:
+     initDeclarator -> ID = assignmentExp ·
+  GOTO状态转换:
+
+
+状态I82:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) M statement ·
+     selectionStatement -> if ( expression ) M statement · N else M statement
+     N -> ·
+  GOTO状态转换:
+     GOTO(82,N)=84
+
+
+状态I83:
+  产生式打点项目:
+     whileStatement -> while M ( expression ) M · statement
+     statement -> · selectionStatement
+     statement -> · whileStatement
+     statement -> · compoundStatement
+     statement -> · expressionStatement
+     selectionStatement -> · if ( expression ) M statement
+     selectionStatement -> · if ( expression ) M statement N else M statement
+     whileStatement -> · while M ( expression ) M statement
+     compoundStatement -> · { declaration statements }
+     expressionStatement -> · expression ;
+     expressionStatement -> · ;
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(83,()=25
+     GOTO(83,+)=23
+     GOTO(83,-)=22
+     GOTO(83,;)=12
+     GOTO(83,ID)=15
+     GOTO(83,additiveExp)=18
+     GOTO(83,assignmentExp)=13
+     GOTO(83,character)=27
+     GOTO(83,compoundStatement)=6
+     GOTO(83,constant)=24
+     GOTO(83,equalityExp)=16
+     GOTO(83,expression)=11
+     GOTO(83,expressionStatement)=7
+     GOTO(83,if)=8
+     GOTO(83,integer)=26
+     GOTO(83,logicalAndExp)=14
+     GOTO(83,multiplicativeExp)=19
+     GOTO(83,primaryExp)=21
+     GOTO(83,relationalExp)=17
+     GOTO(83,selectionStatement)=4
+     GOTO(83,statement)=85
+     GOTO(83,unaryExp)=20
+     GOTO(83,while)=9
+     GOTO(83,whileStatement)=5
+     GOTO(83,{)=10
+
+
+状态I84:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) M statement N · else M statement
+  GOTO状态转换:
+     GOTO(84,else)=86
+
+
+状态I85:
+  产生式打点项目:
+     whileStatement -> while M ( expression ) M statement ·
+  GOTO状态转换:
+
+
+状态I86:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) M statement N else · M statement
+     M -> ·
+  GOTO状态转换:
+     GOTO(86,M)=87
+
+
+状态I87:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) M statement N else M · statement
+     statement -> · selectionStatement
+     statement -> · whileStatement
+     statement -> · compoundStatement
+     statement -> · expressionStatement
+     selectionStatement -> · if ( expression ) M statement
+     selectionStatement -> · if ( expression ) M statement N else M statement
+     whileStatement -> · while M ( expression ) M statement
+     compoundStatement -> · { declaration statements }
+     expressionStatement -> · expression ;
+     expressionStatement -> · ;
+     expression -> · assignmentExp
+     expression -> · expression , assignmentExp
+     assignmentExp -> · logicalAndExp
+     assignmentExp -> · ID = logicalAndExp
+     logicalAndExp -> · equalityExp
+     logicalAndExp -> · logicalAndExp && M equalityExp
+     equalityExp -> · relationalExp
+     equalityExp -> · equalityExp == relationalExp
+     equalityExp -> · equalityExp != relationalExp
+     relationalExp -> · additiveExp
+     relationalExp -> · relationalExp < additiveExp
+     relationalExp -> · relationalExp <= additiveExp
+     relationalExp -> · relationalExp > additiveExp
+     relationalExp -> · relationalExp >= additiveExp
+     additiveExp -> · multiplicativeExp
+     additiveExp -> · additiveExp + multiplicativeExp
+     additiveExp -> · additiveExp - multiplicativeExp
+     multiplicativeExp -> · unaryExp
+     multiplicativeExp -> · multiplicativeExp * unaryExp
+     multiplicativeExp -> · multiplicativeExp / unaryExp
+     unaryExp -> · primaryExp
+     unaryExp -> · - primaryExp
+     unaryExp -> · + primaryExp
+     primaryExp -> · ID
+     primaryExp -> · constant
+     primaryExp -> · ( expression )
+     constant -> · integer
+     constant -> · character
+  GOTO状态转换:
+     GOTO(87,()=25
+     GOTO(87,+)=23
+     GOTO(87,-)=22
+     GOTO(87,;)=12
+     GOTO(87,ID)=15
+     GOTO(87,additiveExp)=18
+     GOTO(87,assignmentExp)=13
+     GOTO(87,character)=27
+     GOTO(87,compoundStatement)=6
+     GOTO(87,constant)=24
+     GOTO(87,equalityExp)=16
+     GOTO(87,expression)=11
+     GOTO(87,expressionStatement)=7
+     GOTO(87,if)=8
+     GOTO(87,integer)=26
+     GOTO(87,logicalAndExp)=14
+     GOTO(87,multiplicativeExp)=19
+     GOTO(87,primaryExp)=21
+     GOTO(87,relationalExp)=17
+     GOTO(87,selectionStatement)=4
+     GOTO(87,statement)=88
+     GOTO(87,unaryExp)=20
+     GOTO(87,while)=9
+     GOTO(87,whileStatement)=5
+     GOTO(87,{)=10
+
+
+状态I88:
+  产生式打点项目:
+     selectionStatement -> if ( expression ) M statement N else M statement ·
+  GOTO状态转换:
+
+

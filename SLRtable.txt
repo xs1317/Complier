@@ -1,0 +1,1244 @@
+State0:
+    ACTION:
+           !EOF!  :  R14
+           (  :  R14
+           {  :  R14
+           ;  :  R14
+           +  :  R14
+           character  :  R14
+           ID  :  R14
+           -  :  R14
+           if  :  R14
+           integer  :  R14
+           while  :  R14
+           }  :  R14
+    GOTO:
+           statements  :  1
+
+State1:
+    ACTION:
+           !EOF!  :  ACC-1
+           (  :  R50
+           ;  :  R50
+           {  :  R50
+           +  :  R50
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  2
+
+State2:
+    ACTION:
+           (  :  S25
+           {  :  S10
+           ;  :  S12
+           +  :  S23
+           character  :  S27
+           ID  :  S15
+           -  :  S22
+           if  :  S8
+           integer  :  S26
+           while  :  S9
+    GOTO:
+           logicalAndExp  :  14
+           expressionStatement  :  7
+           additiveExp  :  18
+           unaryExp  :  20
+           assignmentExp  :  13
+           compoundStatement  :  6
+           constant  :  24
+           equalityExp  :  16
+           expression  :  11
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           relationalExp  :  17
+           selectionStatement  :  4
+           statement  :  3
+           whileStatement  :  5
+
+State3:
+    ACTION:
+           !EOF!  :  R13
+           (  :  R13
+           ;  :  R13
+           {  :  R13
+           +  :  R13
+           character  :  R13
+           ID  :  R13
+           -  :  R13
+           if  :  R13
+           integer  :  R13
+           while  :  R13
+           }  :  R13
+    GOTO:
+
+State4:
+    ACTION:
+           !EOF!  :  R6
+           (  :  R6
+           {  :  R6
+           ;  :  R6
+           +  :  R6
+           else  :  R6
+           character  :  R6
+           ID  :  R6
+           -  :  R6
+           if  :  R6
+           integer  :  R6
+           while  :  R6
+           }  :  R6
+    GOTO:
+
+State5:
+    ACTION:
+           !EOF!  :  R7
+           (  :  R7
+           {  :  R7
+           ;  :  R7
+           +  :  R7
+           else  :  R7
+           character  :  R7
+           ID  :  R7
+           -  :  R7
+           if  :  R7
+           integer  :  R7
+           while  :  R7
+           }  :  R7
+    GOTO:
+
+State6:
+    ACTION:
+           !EOF!  :  R8
+           (  :  R8
+           ;  :  R8
+           {  :  R8
+           +  :  R8
+           else  :  R8
+           character  :  R8
+           ID  :  R8
+           -  :  R8
+           if  :  R8
+           integer  :  R8
+           while  :  R8
+           }  :  R8
+    GOTO:
+
+State7:
+    ACTION:
+           !EOF!  :  R9
+           (  :  R9
+           ;  :  R9
+           {  :  R9
+           +  :  R9
+           else  :  R9
+           character  :  R9
+           ID  :  R9
+           -  :  R9
+           if  :  R9
+           integer  :  R9
+           while  :  R9
+           }  :  R9
+    GOTO:
+
+State8:
+    ACTION:
+           (  :  S28
+    GOTO:
+
+State9:
+    ACTION:
+           (  :  R50
+           {  :  R50
+           ;  :  R50
+           +  :  R50
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  29
+
+State10:
+    ACTION:
+           char  :  S33
+           int  :  S32
+           (  :  R19
+           {  :  R19
+           ;  :  R19
+           +  :  R19
+           character  :  R19
+           ID  :  R19
+           -  :  R19
+           if  :  R19
+           integer  :  R19
+           while  :  R19
+           }  :  R19
+    GOTO:
+           declaration  :  30
+           typeSpecifier  :  31
+
+State11:
+    ACTION:
+           ,  :  S35
+           ;  :  S34
+    GOTO:
+
+State12:
+    ACTION:
+           !EOF!  :  R11
+           (  :  R11
+           {  :  R11
+           ;  :  R11
+           +  :  R11
+           else  :  R11
+           character  :  R11
+           ID  :  R11
+           -  :  R11
+           if  :  R11
+           integer  :  R11
+           while  :  R11
+           }  :  R11
+    GOTO:
+
+State13:
+    ACTION:
+           )  :  R22
+           ,  :  R22
+           ;  :  R22
+    GOTO:
+
+State14:
+    ACTION:
+           &&  :  S36
+           )  :  R24
+           ,  :  R24
+           ;  :  R24
+    GOTO:
+
+State15:
+    ACTION:
+           -  :  R47
+           =  :  S37
+           <  :  R47
+           !=  :  R47
+           *  :  R47
+           <=  :  R47
+           +  :  R47
+           /  :  R47
+           ==  :  R47
+           >  :  R47
+           >=  :  R47
+    GOTO:
+
+State16:
+    ACTION:
+           !=  :  S39
+           ,  :  R28
+           ==  :  S38
+           &&  :  R28
+           ||  :  R28
+           ;  :  R28
+    GOTO:
+
+State17:
+    ACTION:
+           ,  :  R30
+           !=  :  R30
+           <  :  S40
+           ;  :  R30
+           <=  :  S41
+           >  :  S42
+           >=  :  S43
+           &&  :  R30
+           ==  :  R30
+           ||  :  R30
+    GOTO:
+
+State18:
+    ACTION:
+           <=  :  R33
+           +  :  S44
+           -  :  S45
+           <  :  R33
+           !=  :  R33
+           &&  :  R33
+           ==  :  R33
+           >  :  R33
+           >=  :  R33
+    GOTO:
+
+State19:
+    ACTION:
+           &&  :  R38
+           *  :  S46
+           /  :  S47
+           <  :  R38
+           !=  :  R38
+           <=  :  R38
+           +  :  R38
+           -  :  R38
+           ==  :  R38
+           >  :  R38
+           >=  :  R38
+    GOTO:
+
+State20:
+    ACTION:
+           <  :  R41
+           !=  :  R41
+           *  :  R41
+           <=  :  R41
+           +  :  R41
+           -  :  R41
+           /  :  R41
+           ==  :  R41
+           >  :  R41
+           >=  :  R41
+    GOTO:
+
+State21:
+    ACTION:
+           <  :  R44
+           !=  :  R44
+           *  :  R44
+           <=  :  R44
+           +  :  R44
+           -  :  R44
+           /  :  R44
+           ==  :  R44
+           >  :  R44
+           >=  :  R44
+    GOTO:
+
+State22:
+    ACTION:
+           (  :  S25
+           character  :  S27
+           ID  :  S49
+           integer  :  S26
+    GOTO:
+           constant  :  24
+           primaryExp  :  48
+
+State23:
+    ACTION:
+           (  :  S25
+           character  :  S27
+           ID  :  S49
+           integer  :  S26
+    GOTO:
+           constant  :  24
+           primaryExp  :  50
+
+State24:
+    ACTION:
+           <  :  R48
+           !=  :  R48
+           *  :  R48
+           <=  :  R48
+           +  :  R48
+           -  :  R48
+           /  :  R48
+           ==  :  R48
+           >  :  R48
+           >=  :  R48
+    GOTO:
+
+State25:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S15
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           logicalAndExp  :  14
+           additiveExp  :  18
+           unaryExp  :  20
+           assignmentExp  :  13
+           constant  :  24
+           primaryExp  :  21
+           equalityExp  :  16
+           expression  :  51
+           multiplicativeExp  :  19
+           relationalExp  :  17
+
+State26:
+    ACTION:
+           *  :  R1
+           +  :  R1
+           -  :  R1
+           /  :  R1
+    GOTO:
+
+State27:
+    ACTION:
+           *  :  R2
+           +  :  R2
+           -  :  R2
+           /  :  R2
+    GOTO:
+
+State28:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S15
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           logicalAndExp  :  14
+           additiveExp  :  18
+           assignmentExp  :  13
+           unaryExp  :  20
+           constant  :  24
+           primaryExp  :  21
+           equalityExp  :  16
+           expression  :  52
+           multiplicativeExp  :  19
+           relationalExp  :  17
+
+State29:
+    ACTION:
+           (  :  S53
+    GOTO:
+
+State30:
+    ACTION:
+           !EOF!  :  R14
+           (  :  R14
+           ;  :  R14
+           {  :  R14
+           +  :  R14
+           character  :  R14
+           ID  :  R14
+           -  :  R14
+           if  :  R14
+           integer  :  R14
+           while  :  R14
+           }  :  R14
+    GOTO:
+           statements  :  54
+
+State31:
+    ACTION:
+           ;  :  S56
+           ID  :  S57
+    GOTO:
+           initDeclarator  :  55
+
+State32:
+    ACTION:
+           ;  :  R15
+           ID  :  R15
+    GOTO:
+
+State33:
+    ACTION:
+           ;  :  R16
+           ID  :  R16
+    GOTO:
+
+State34:
+    ACTION:
+           !EOF!  :  R10
+           (  :  R10
+           ;  :  R10
+           {  :  R10
+           +  :  R10
+           else  :  R10
+           character  :  R10
+           ID  :  R10
+           -  :  R10
+           if  :  R10
+           integer  :  R10
+           while  :  R10
+           }  :  R10
+    GOTO:
+
+State35:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S15
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           logicalAndExp  :  14
+           additiveExp  :  18
+           assignmentExp  :  58
+           unaryExp  :  20
+           constant  :  24
+           primaryExp  :  21
+           equalityExp  :  16
+           multiplicativeExp  :  19
+           relationalExp  :  17
+
+State36:
+    ACTION:
+           (  :  R50
+           ;  :  R50
+           {  :  R50
+           +  :  R50
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  59
+
+State37:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S49
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           additiveExp  :  18
+           logicalAndExp  :  60
+           constant  :  24
+           equalityExp  :  16
+           primaryExp  :  21
+           multiplicativeExp  :  19
+           relationalExp  :  17
+           unaryExp  :  20
+
+State38:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S49
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           additiveExp  :  18
+           constant  :  24
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           relationalExp  :  61
+           unaryExp  :  20
+
+State39:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S49
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           additiveExp  :  18
+           constant  :  24
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           relationalExp  :  62
+           unaryExp  :  20
+
+State40:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S49
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           additiveExp  :  63
+           constant  :  24
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           unaryExp  :  20
+
+State41:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S49
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           additiveExp  :  64
+           constant  :  24
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           unaryExp  :  20
+
+State42:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           additiveExp  :  65
+           constant  :  24
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           unaryExp  :  20
+
+State43:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           additiveExp  :  66
+           constant  :  24
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           unaryExp  :  20
+
+State44:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           constant  :  24
+           multiplicativeExp  :  67
+           primaryExp  :  21
+           unaryExp  :  20
+
+State45:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           constant  :  24
+           multiplicativeExp  :  68
+           primaryExp  :  21
+           unaryExp  :  20
+
+State46:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           constant  :  24
+           primaryExp  :  21
+           unaryExp  :  69
+
+State47:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           constant  :  24
+           primaryExp  :  21
+           unaryExp  :  70
+
+State48:
+    ACTION:
+           <  :  R45
+           !=  :  R45
+           *  :  R45
+           <=  :  R45
+           +  :  R45
+           -  :  R45
+           /  :  R45
+           ==  :  R45
+           >  :  R45
+           >=  :  R45
+    GOTO:
+
+State49:
+    ACTION:
+           <  :  R47
+           !=  :  R47
+           *  :  R47
+           <=  :  R47
+           +  :  R47
+           -  :  R47
+           /  :  R47
+           ==  :  R47
+           >  :  R47
+           >=  :  R47
+    GOTO:
+
+State50:
+    ACTION:
+           <  :  R46
+           !=  :  R46
+           *  :  R46
+           <=  :  R46
+           +  :  R46
+           -  :  R46
+           /  :  R46
+           ==  :  R46
+           >  :  R46
+           >=  :  R46
+    GOTO:
+
+State51:
+    ACTION:
+           )  :  S71
+           ,  :  S35
+    GOTO:
+
+State52:
+    ACTION:
+           )  :  S72
+           ,  :  S35
+    GOTO:
+
+State53:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S15
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           logicalAndExp  :  14
+           additiveExp  :  18
+           unaryExp  :  20
+           assignmentExp  :  13
+           constant  :  24
+           primaryExp  :  21
+           equalityExp  :  16
+           expression  :  73
+           multiplicativeExp  :  19
+           relationalExp  :  17
+
+State54:
+    ACTION:
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           }  :  S74
+           (  :  R50
+           {  :  R50
+           ;  :  R50
+           +  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  2
+
+State55:
+    ACTION:
+           ;  :  S75
+    GOTO:
+
+State56:
+    ACTION:
+           (  :  R18
+           {  :  R18
+           ;  :  R18
+           +  :  R18
+           character  :  R18
+           ID  :  R18
+           -  :  R18
+           if  :  R18
+           integer  :  R18
+           while  :  R18
+           }  :  R18
+    GOTO:
+
+State57:
+    ACTION:
+           =  :  S76
+           ;  :  R20
+    GOTO:
+
+State58:
+    ACTION:
+           )  :  R23
+           ,  :  R23
+           ;  :  R23
+    GOTO:
+
+State59:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           character  :  S27
+           ID  :  S49
+           -  :  S22
+           integer  :  S26
+    GOTO:
+           additiveExp  :  18
+           constant  :  24
+           primaryExp  :  21
+           equalityExp  :  77
+           multiplicativeExp  :  19
+           relationalExp  :  17
+           unaryExp  :  20
+
+State60:
+    ACTION:
+           &&  :  S36
+           )  :  R25
+           ,  :  R25
+           ;  :  R25
+    GOTO:
+
+State61:
+    ACTION:
+           ,  :  R31
+           !=  :  R31
+           <  :  S40
+           ;  :  R31
+           <=  :  S41
+           >  :  S42
+           >=  :  S43
+           &&  :  R31
+           ==  :  R31
+           ||  :  R31
+    GOTO:
+
+State62:
+    ACTION:
+           ,  :  R32
+           !=  :  R32
+           <  :  S40
+           ;  :  R32
+           <=  :  S41
+           >  :  S42
+           >=  :  S43
+           &&  :  R32
+           ==  :  R32
+           ||  :  R32
+    GOTO:
+
+State63:
+    ACTION:
+           <=  :  R34
+           +  :  S44
+           -  :  S45
+           <  :  R34
+           !=  :  R34
+           &&  :  R34
+           ==  :  R34
+           >  :  R34
+           >=  :  R34
+    GOTO:
+
+State64:
+    ACTION:
+           <=  :  R35
+           +  :  S44
+           -  :  S45
+           <  :  R35
+           !=  :  R35
+           &&  :  R35
+           ==  :  R35
+           >  :  R35
+           >=  :  R35
+    GOTO:
+
+State65:
+    ACTION:
+           <=  :  R36
+           +  :  S44
+           -  :  S45
+           <  :  R36
+           !=  :  R36
+           &&  :  R36
+           ==  :  R36
+           >  :  R36
+           >=  :  R36
+    GOTO:
+
+State66:
+    ACTION:
+           <=  :  R37
+           +  :  S44
+           -  :  S45
+           <  :  R37
+           !=  :  R37
+           &&  :  R37
+           ==  :  R37
+           >  :  R37
+           >=  :  R37
+    GOTO:
+
+State67:
+    ACTION:
+           &&  :  R39
+           *  :  S46
+           /  :  S47
+           <  :  R39
+           !=  :  R39
+           <=  :  R39
+           +  :  R39
+           -  :  R39
+           ==  :  R39
+           >  :  R39
+           >=  :  R39
+    GOTO:
+
+State68:
+    ACTION:
+           &&  :  R40
+           *  :  S46
+           /  :  S47
+           <  :  R40
+           !=  :  R40
+           <=  :  R40
+           +  :  R40
+           -  :  R40
+           ==  :  R40
+           >  :  R40
+           >=  :  R40
+    GOTO:
+
+State69:
+    ACTION:
+           <  :  R42
+           !=  :  R42
+           *  :  R42
+           <=  :  R42
+           +  :  R42
+           -  :  R42
+           /  :  R42
+           ==  :  R42
+           >  :  R42
+           >=  :  R42
+    GOTO:
+
+State70:
+    ACTION:
+           <  :  R43
+           !=  :  R43
+           *  :  R43
+           <=  :  R43
+           +  :  R43
+           -  :  R43
+           /  :  R43
+           ==  :  R43
+           >  :  R43
+           >=  :  R43
+    GOTO:
+
+State71:
+    ACTION:
+           <  :  R49
+           !=  :  R49
+           *  :  R49
+           <=  :  R49
+           +  :  R49
+           -  :  R49
+           /  :  R49
+           ==  :  R49
+           >  :  R49
+           >=  :  R49
+    GOTO:
+
+State72:
+    ACTION:
+           (  :  R50
+           ;  :  R50
+           {  :  R50
+           +  :  R50
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  78
+
+State73:
+    ACTION:
+           )  :  S79
+           ,  :  S35
+    GOTO:
+
+State74:
+    ACTION:
+           !EOF!  :  R12
+           (  :  R12
+           ;  :  R12
+           {  :  R12
+           +  :  R12
+           else  :  R12
+           character  :  R12
+           ID  :  R12
+           -  :  R12
+           if  :  R12
+           integer  :  R12
+           while  :  R12
+           }  :  R12
+    GOTO:
+
+State75:
+    ACTION:
+           char  :  S33
+           int  :  S32
+           (  :  R19
+           ;  :  R19
+           {  :  R19
+           +  :  R19
+           character  :  R19
+           ID  :  R19
+           -  :  R19
+           if  :  R19
+           integer  :  R19
+           while  :  R19
+           }  :  R19
+    GOTO:
+           declaration  :  80
+           typeSpecifier  :  31
+
+State76:
+    ACTION:
+           (  :  S25
+           +  :  S23
+           -  :  S22
+           ID  :  S15
+           character  :  S27
+           integer  :  S26
+    GOTO:
+           logicalAndExp  :  14
+           additiveExp  :  18
+           assignmentExp  :  81
+           unaryExp  :  20
+           constant  :  24
+           primaryExp  :  21
+           equalityExp  :  16
+           multiplicativeExp  :  19
+           relationalExp  :  17
+
+State77:
+    ACTION:
+           !=  :  S39
+           ,  :  R29
+           ==  :  S38
+           &&  :  R29
+           ||  :  R29
+           ;  :  R29
+    GOTO:
+
+State78:
+    ACTION:
+           (  :  S25
+           ;  :  S12
+           {  :  S10
+           +  :  S23
+           character  :  S27
+           ID  :  S15
+           -  :  S22
+           if  :  S8
+           integer  :  S26
+           while  :  S9
+    GOTO:
+           logicalAndExp  :  14
+           expressionStatement  :  7
+           additiveExp  :  18
+           assignmentExp  :  13
+           unaryExp  :  20
+           compoundStatement  :  6
+           constant  :  24
+           equalityExp  :  16
+           expression  :  11
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           relationalExp  :  17
+           selectionStatement  :  4
+           statement  :  82
+           whileStatement  :  5
+
+State79:
+    ACTION:
+           (  :  R50
+           ;  :  R50
+           {  :  R50
+           +  :  R50
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  83
+
+State80:
+    ACTION:
+           (  :  R17
+           ;  :  R17
+           {  :  R17
+           +  :  R17
+           character  :  R17
+           ID  :  R17
+           -  :  R17
+           if  :  R17
+           integer  :  R17
+           while  :  R17
+           }  :  R17
+    GOTO:
+
+State81:
+    ACTION:
+           ;  :  R21
+    GOTO:
+
+State82:
+    ACTION:
+           !EOF!  :  R4
+           (  :  R4
+           ;  :  R4
+           {  :  R4
+           +  :  R4
+           else  :  R51
+           character  :  R4
+           ID  :  R4
+           -  :  R4
+           if  :  R4
+           integer  :  R4
+           while  :  R4
+           }  :  R4
+    GOTO:
+           N  :  84
+
+State83:
+    ACTION:
+           (  :  S25
+           ;  :  S12
+           {  :  S10
+           +  :  S23
+           character  :  S27
+           ID  :  S15
+           -  :  S22
+           if  :  S8
+           integer  :  S26
+           while  :  S9
+    GOTO:
+           logicalAndExp  :  14
+           expressionStatement  :  7
+           additiveExp  :  18
+           assignmentExp  :  13
+           unaryExp  :  20
+           compoundStatement  :  6
+           constant  :  24
+           equalityExp  :  16
+           expression  :  11
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           relationalExp  :  17
+           selectionStatement  :  4
+           statement  :  85
+           whileStatement  :  5
+
+State84:
+    ACTION:
+           else  :  S86
+    GOTO:
+
+State85:
+    ACTION:
+           !EOF!  :  R3
+           (  :  R3
+           ;  :  R3
+           {  :  R3
+           +  :  R3
+           else  :  R3
+           character  :  R3
+           ID  :  R3
+           -  :  R3
+           if  :  R3
+           integer  :  R3
+           while  :  R3
+           }  :  R3
+    GOTO:
+
+State86:
+    ACTION:
+           (  :  R50
+           ;  :  R50
+           {  :  R50
+           +  :  R50
+           character  :  R50
+           ID  :  R50
+           -  :  R50
+           if  :  R50
+           integer  :  R50
+           while  :  R50
+    GOTO:
+           M  :  87
+
+State87:
+    ACTION:
+           (  :  S25
+           ;  :  S12
+           {  :  S10
+           +  :  S23
+           character  :  S27
+           ID  :  S15
+           -  :  S22
+           if  :  S8
+           integer  :  S26
+           while  :  S9
+    GOTO:
+           logicalAndExp  :  14
+           expressionStatement  :  7
+           additiveExp  :  18
+           assignmentExp  :  13
+           unaryExp  :  20
+           compoundStatement  :  6
+           constant  :  24
+           equalityExp  :  16
+           expression  :  11
+           multiplicativeExp  :  19
+           primaryExp  :  21
+           relationalExp  :  17
+           selectionStatement  :  4
+           statement  :  88
+           whileStatement  :  5
+
+State88:
+    ACTION:
+           !EOF!  :  R5
+           (  :  R5
+           ;  :  R5
+           {  :  R5
+           +  :  R5
+           else  :  R5
+           character  :  R5
+           ID  :  R5
+           -  :  R5
+           if  :  R5
+           integer  :  R5
+           while  :  R5
+           }  :  R5
+    GOTO:
+
