@@ -34,8 +34,8 @@ initDeclarator ->  ID '=' assignmentExp
 expression -> assignmentExp
 expression -> expression ',' assignmentExp
 
-assignmentExp -> logicalAndExp
-assignmentExp -> ID '=' logicalAndExp
+assignmentExp -> logicalOrExp
+assignmentExp -> ID '=' logicalOrExp
 
 logicalOrExp -> logicalAndExp
 logicalOrExp -> logicalOrExp '||' M logicalAndExp

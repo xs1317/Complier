@@ -287,6 +287,12 @@ void SLR::buildSLR()
 		//考察状态s的每一个打点项目，找到规约项目
 		for (Item item : s.items)
 		{
+			if (sindex == 14)
+			{
+				int biaoji;
+				biaoji = 15;
+			}
+
 			//该项目点在尾部,置Follow(left)的每一个符号为规约
 			if (item.judgeEnd())
 			{
@@ -295,6 +301,9 @@ void SLR::buildSLR()
 				//对Follow(left)每一个符号置规约
 				for (string i : wfdata.Follow[left])
 				{
+
+
+
 					//无冲突 直接加入
 					Actioncell newAction = Actioncell("R", productionNo);
 					if (VtACTION.find(i) == VtACTION.end())

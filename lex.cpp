@@ -1,19 +1,53 @@
 // 扫描源程序，转化为单词串
 #include"lex.h"
 #include"SLR.h"
+#include<stack>
 using namespace std;
 
-//首先用string串模拟输入
-//char input[1024];
-
+bool flag = false;
 // 用unordered_map构建符号表 快速查找
 
 // 注意小括号、大括号以及单字符运算符不需要加入enum 因为ASCII对其有定义
 // INTEGER表示整型常量     CHARACTER为字符常量     CHAR和INT为类型关键字
 enum Tag {INTEGER=257, CHAR,ID,IF,ELSE, DO,WHILE,AND,OR,EQ,GE,LE,NEQ,INT,CHARACTER,BASIC};
 
-
-
+//使name能和其他部分匹配，转为字符串
+string convertName(int name)
+{
+	if (name == 0)
+	{
+		return "!EOF!";
+	}
+	else if(name <= 256)
+	{
+		string a = "0";
+		a[0] = char(name);
+		return a;
+	}
+	else
+	{
+		string result;
+		switch (name)
+		{
+			case 257:result = "integer"; break;
+			case 258:result = "char"; break;
+			case 259:result = "ID"; break;
+			case 260:result = "if"; break;
+			case 261:result = "else"; break;
+			case 262:result = "do"; break;
+			case 263:result = "while"; break;
+			case 264:result = "&&"; break;
+			case 265:result = "||"; break;
+			case 266:result = "=="; break;
+			case 267:result = ">="; break;
+			case 268:result = "<="; break;
+			case 269:result = "!="; break;
+			case 270:result = "int"; break;
+			case 271:result = "character"; break;
+		}
+		return result;
+	}
+}
 
 //这四个类用于管理不同的词法单元
 class Token
@@ -175,10 +209,10 @@ public:
 	char peek =' ';
 	int index = -1;
 	bool flag = true;
-	string sourceCodePath = "sourceCode.txt";
+	string sourceCodePath = "sourceCode1.txt";
 	string tokenOutPath = "Lex.txt";
 	string input;
-	list <class Token*> TokenList;   //词法单元序列
+	vector <class Token*> TokenList;   //词法单元序列
 	unordered_map<string, Word>Words ={};
 
 	//将所有关键字和运算符加入Word
@@ -196,6 +230,15 @@ public:
 		reserve(Word("!=", Tag::NEQ));
 		reserve(Type("int", Tag::INT, 4));
 		reserve(Type("char", Tag::CHAR, 1));
+	}
+
+	void init()
+	{
+		line = 1;
+		peek = ' ';
+		index = -1;
+		input = "";
+		TokenList.clear();
 	}
 
 	void reserve(Word w)
@@ -315,7 +358,10 @@ public:
 					} while (isdigit(peek));
 					// 应当回退一个
 					if (tempX > 255)
+					{
 						cout << tempX << "对字符类型太大,line:" << line << endl;
+						return NULL;
+					}
 					else
 						c = char(tempX);
 				}
@@ -325,9 +371,12 @@ public:
 					int tempX = 0;
 					do
 					{
-						tempX = tempX * 16 + peek - '0';
+						if (isdigit(peek))
+							tempX = tempX * 16 + peek - '0';
+						else
+							tempX = tempX * 16 + peek - 'A' + 10;
 						readch();
-					} while (isdigit(peek));
+					} while (isdigit(peek)|| peek>='A' && peek<='F');
 					if (tempX > 255)
 					{
 						cout << tempX << "对字符类型太大,line:" << line << endl;
@@ -383,7 +432,7 @@ public:
 				}
 			}
 			// 所有的情况都必须再读入一个单引号才能进行
-			if (peek = '\'')
+			if (peek == '\'')
 			{
 				readch();//在识别下一个词素之前应当前进
 				Character* t = new Character(c);
@@ -392,6 +441,7 @@ public:
 			else
 			{
 				cout << "缺失单引号或引号内有多个字符,line:" << line << endl;
+				return NULL;	
 			}
 		}
 
@@ -454,7 +504,6 @@ public:
 		}
 
 	}
-
 	void showTokenList()
 	{
 		ofstream outFile(tokenOutPath);
@@ -473,15 +522,17 @@ public:
 			}
 			else
 			{
-				cout << "<未识别词素>";
+				cout << "<未识别词素>" ;
 				outFile << "未识别词素";
 			}
 		}
+		cout << endl;
 	}
 
 	void getInput()
 	{
 		ifstream inputFile(sourceCodePath);
+		input = "";
 		int datalen = 0;
 		string temp;
 		while (getline(inputFile, temp))
@@ -491,27 +542,49 @@ public:
 		}
 	}
 
-	void scanAll()
+	bool scanAll()
 	{
 		bool flag = true;
 		//写的lexer.scan() 实际上是每次获得一个词法单元
 		while (flag)
 		{
 			Token* temp = scan();
-			TokenList.push_back(temp);
+			if(temp != NULL)
+				TokenList.push_back(temp);
+			else
+			{
+				cout << "词法分析失败" << endl;
+				return false;
+			}
 			if (temp->Name == 0) //获取到了文件结束符
 				flag = false;
 		}
+		return true;
 	}
+};
+
+typedef struct t
+{
+	int status;
+	string symbol;
+	t(int s, string y) :status(s), symbol(y) {};
+}ParserItem;
+
+
+typedef struct k
+{
+
+
 };
 
 class Parser
 {
 public:
-	list <class Token*> TokenList;   //词法单元序列
+	vector <class Token*> TokenList;   //词法单元序列
 	vector<unordered_map<string, int>> GOTOtable;
 	vector <unordered_map<string, Actioncell>> ACTIONtable;
-	Parser(list<class Token*> T,SLR s)
+	
+	Parser(vector<class Token*> T,SLR s)
 	{
 		TokenList = T;
 		GOTOtable = s.GOTOtable;
@@ -520,14 +593,65 @@ public:
 
 
 	//利用ACTIONtable和GOTOtable对词法分析获得的单词串进行分析
+	//打印规约过程
 	void parsing()
 	{
-		
+		int Tokenindex = 0;
+		if (TokenList.size() == 0)
+			return;
+		stack<ParserItem> parseStack;
+		//加入状态0和终结符
+		parseStack.push(ParserItem(0, "!EOF!"));
+
+		cout << "------------------语法分析-------------------" << endl;
+
+		//取首个符号
+		Token a = *TokenList[Tokenindex++];
+		while (true)
+		{
+			ParserItem s = parseStack.top();
+			//查找动作
+			if ( ACTIONtable[s.status].find(convertName(a.Name)) != ACTIONtable[s.status].end())
+			{
+				Actioncell act = ACTIONtable[s.status].at(convertName(a.Name));
+				//移进动作
+				if (act.op == "S")
+				{
+					parseStack.push(ParserItem(act.dest, convertName(a.Name)));
+					a = *TokenList[Tokenindex++];
+					cout << act.op<< act.dest << endl;
+				}
+				//规约动作
+				else if (act.op == "R")
+				{
+					//获取规约用的产生式
+					production p = wfdata.productions[act.dest];
+					for (int i = 0; i < p.length; i++)
+						parseStack.pop();
+					//获取当前栈顶
+					ParserItem nowTop = parseStack.top();
+					parseStack.push(ParserItem( GOTOtable[nowTop.status][p.left] , p.left));
+					cout << p.toString() << endl;;
+
+				}
+				else if (act.op == "ACC")
+				{
+					cout << "语法分析完成"<<endl;
+					break;
+				}
+			}
+			else
+			{
+				cout << "出错" << endl;
+				break;
+			}
+		}
+
 	}
-
-
 };
 
+vector<string> sourcePath = {"sourceCode.txt","sourceCode1.txt","sourceCode2.txt","sourceCode3.txt" ,"sourceCode4.txt" ,"sourceCode5.txt" };
+vector<string> tokenPath = { "Token.txt","Token1.txt","Token2.txt","Token3.txt" ,"Token4.txt" ,"Token5.txt" };
 //多遍扫描，构造一个序列存储单词串
 int main()
 { 
@@ -544,13 +668,29 @@ int main()
 	mySLR.showSLR();
 
 	Lexer lexer = Lexer();
-	lexer.getInput();
-	lexer.scanAll();
-	lexer.showTokenList();
-
 
 	Parser parser(lexer.TokenList, mySLR);
 
+	while (true)
+	{
+		lexer.init();
+		lexer.getInput();
+		if (lexer.scanAll()) 
+		{
+			lexer.showTokenList();
+			parser.TokenList = lexer.TokenList;
+			parser.parsing();
+		}
+		int selection;
+		cout << endl;
+		cin >> selection;
+		if (selection < sourcePath.size())
+		{
+			lexer.sourceCodePath = sourcePath[selection];
+			lexer.tokenOutPath = tokenPath[selection];
+		}
+
+	}
 
 	return 0;
 }

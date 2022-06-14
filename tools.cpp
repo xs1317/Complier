@@ -100,8 +100,9 @@ bool followEqual(map<string, set<string>> oldM, map<string, set<string>> newM)
 					return false;
 				}
 			}
-			return true;
+			
 		}
+		return true;
 	}
 	else
 	{
@@ -449,8 +450,6 @@ void getFollow()
 		outFollow << outS;
 	}
 }
-
-
 #pragma endregion
 
 
