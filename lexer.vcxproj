@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClCompile Include="lex.cpp" />
     <ClCompile Include="SLR.cpp" />
+    <ClCompile Include="Token.cpp" />
     <ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lex.h" />
     <ClInclude Include="SLR.h" />
+    <ClInclude Include="Token.h" />
     <ClInclude Include="tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

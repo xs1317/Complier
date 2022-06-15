@@ -8,3 +8,4 @@
 #include<fstream>
 #include<vector>
 #include<ctype.h>
+#include "Token.h"

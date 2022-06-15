@@ -1,6 +1,7 @@
 First(M)={ '#' }
 First(N)={ '#' }
 First(S)={ '#', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'if' , 'integer' , 'while' , '{'  }
+First(T)={ '(', '+' , '-' , 'ID' , 'character' , 'integer'  }
 First(additiveExp)={ '(', '+' , '-' , 'ID' , 'character' , 'integer'  }
 First(assignmentExp)={ '(', '+' , '-' , 'ID' , 'character' , 'integer'  }
 First(compoundStatement)={ '{' }

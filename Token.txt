@@ -1,0 +1,2 @@
+<TokenName=INT,value=int><TokenName=ID,value=a><TokenName==,value=Null><TokenName=INTEGER,value=155><TokenName=*,value=Null><TokenName=INTEGER,value=3><TokenName=;,value=Null>
+<TokenName=!EOF!,value=Null>

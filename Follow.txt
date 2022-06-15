@@ -1,6 +1,7 @@
 Follow(M)={ '(', '+' , '-' , ';' , 'ID' , 'character' , 'if' , 'integer' , 'while' , '{'  }
 Follow(N)={ 'else' }
 Follow(S)={ '!EOF!' }
+Follow(T)={ ')' }
 Follow(additiveExp)={ '!=', '&&' , ')' , '+' , ',' , '-' , ';' , '<' , '<=' , '==' , '>' , '>=' , '||'  }
 Follow(assignmentExp)={ ')', ',' , ';'  }
 Follow(compoundStatement)={ '!EOF!', '(' , '+' , '-' , ';' , 'ID' , 'character' , 'else' , 'if' , 'integer' , 'while' , '{' , '}'  }

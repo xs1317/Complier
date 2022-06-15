@@ -66,6 +66,16 @@ void WF::getvalue(set<string>t, set<string>n, map<string, set<string>>Fi, map<st
 	split_productions = sp;
 	productions = p;
 }
+
+void WF::outProductions(string outPath)
+{
+	ofstream outProductions(outPath);
+	for (auto i : productions)
+	{
+		outProductions << i.id <<"  :  " << i.toString() << endl;
+	}
+}
+
 #pragma endregion
 
 

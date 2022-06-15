@@ -302,8 +302,6 @@ void SLR::buildSLR()
 				for (string i : wfdata.Follow[left])
 				{
 
-
-
 					//无冲突 直接加入
 					Actioncell newAction = Actioncell("R", productionNo);
 					if (VtACTION.find(i) == VtACTION.end())
@@ -390,25 +388,3 @@ void SLR::showSLR()
 	}
 }
 
-
-int main2()
-{
-	init();
-	getFirst();
-	cout << endl; cout << endl; cout << endl; cout << endl;
-	getFollow();
-
-	initWfdata();
-
-	SLR mySLR;
-
-	mySLR.buildstates();
-
-	mySLR.showAllstates();
-
-	cout << "\n\n\n构造SLR分析表\n";
-	mySLR.buildSLR();
-	mySLR.showSLR();
-
-	return 0;
-}

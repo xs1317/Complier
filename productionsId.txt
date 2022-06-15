@@ -1,0 +1,53 @@
+0  :  S -> statements
+1  :  constant -> integer
+2  :  constant -> character
+3  :  whileStatement -> while M ( T ) M statement
+4  :  selectionStatement -> if ( T ) M statement
+5  :  selectionStatement -> if ( T ) M statement N else M statement
+6  :  statement -> selectionStatement
+7  :  statement -> whileStatement
+8  :  statement -> compoundStatement
+9  :  statement -> expressionStatement
+10  :  expressionStatement -> expression ;
+11  :  expressionStatement -> ;
+12  :  compoundStatement -> { declaration statements }
+13  :  statements -> statements M statement
+14  :  statements -> #
+15  :  typeSpecifier -> int
+16  :  typeSpecifier -> char
+17  :  declaration -> typeSpecifier initDeclarator ; declaration
+18  :  declaration -> typeSpecifier ;
+19  :  declaration -> #
+20  :  initDeclarator -> ID
+21  :  initDeclarator -> ID = assignmentExp
+22  :  expression -> assignmentExp
+23  :  expression -> expression , assignmentExp
+24  :  assignmentExp -> logicalOrExp
+25  :  assignmentExp -> ID = logicalOrExp
+26  :  logicalOrExp -> logicalAndExp
+27  :  logicalOrExp -> logicalOrExp || M logicalAndExp
+28  :  logicalAndExp -> equalityExp
+29  :  logicalAndExp -> logicalAndExp && M equalityExp
+30  :  equalityExp -> relationalExp
+31  :  equalityExp -> equalityExp == relationalExp
+32  :  equalityExp -> equalityExp != relationalExp
+33  :  relationalExp -> additiveExp
+34  :  relationalExp -> relationalExp < additiveExp
+35  :  relationalExp -> relationalExp <= additiveExp
+36  :  relationalExp -> relationalExp > additiveExp
+37  :  relationalExp -> relationalExp >= additiveExp
+38  :  additiveExp -> multiplicativeExp
+39  :  additiveExp -> additiveExp + multiplicativeExp
+40  :  additiveExp -> additiveExp - multiplicativeExp
+41  :  multiplicativeExp -> unaryExp
+42  :  multiplicativeExp -> multiplicativeExp * unaryExp
+43  :  multiplicativeExp -> multiplicativeExp / unaryExp
+44  :  unaryExp -> primaryExp
+45  :  unaryExp -> - primaryExp
+46  :  unaryExp -> + primaryExp
+47  :  primaryExp -> ID
+48  :  primaryExp -> constant
+49  :  primaryExp -> ( expression )
+50  :  M -> #
+51  :  N -> #
+52  :  T -> expression

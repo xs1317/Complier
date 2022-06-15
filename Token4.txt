@@ -1,0 +1,2 @@
+<TokenName={,value=Null><TokenName=IF,value=if><TokenName=(,value=Null><TokenName=ID,value=a><TokenName=EQ,value===><TokenName=INTEGER,value=1><TokenName=),value=Null><TokenName={,value=Null><TokenName=ID,value=b><TokenName==,value=Null><TokenName=INTEGER,value=1><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=},value=Null><TokenName=!EOF!,value=Null>

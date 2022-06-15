@@ -3,10 +3,10 @@ S -> statements
 constant -> integer
 constant -> character
 
-whileStatement -> 'while' M '(' expression ')' M statement
+whileStatement -> 'while' M '(' T ')' M statement
 
-selectionStatement -> 'if' '(' expression ')' M statement
-selectionStatement -> 'if' '(' expression ')' M statement N 'else' M statement
+selectionStatement -> 'if' '(' T ')' M statement
+selectionStatement -> 'if' '(' T ')' M statement N 'else' M statement
 
 statement -> selectionStatement
 statement -> whileStatement
@@ -24,8 +24,8 @@ statements -> '#'
 typeSpecifier -> 'int'
 typeSpecifier -> 'char'
 
-declaration -> typeSpecifier initDeclarator ';' declaration
-declaration -> typeSpecifier ';'
+declaration -> typeSpecifier  initDeclarator ';' declaration
+declaration -> typeSpecifier  ';'
 declaration -> '#'
 
 initDeclarator ->  ID
@@ -71,3 +71,5 @@ primaryExp -> '(' expression ')'
 
 M -> '#'
 N -> '#'
+
+T -> expression

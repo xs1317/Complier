@@ -458,6 +458,8 @@ State29:
            character  :  S28
            integer  :  S27
     GOTO:
+           expression  :  55
+           T  :  54
            logicalAndExp  :  16
            additiveExp  :  19
            assignmentExp  :  13
@@ -465,14 +467,13 @@ State29:
            constant  :  25
            logicalOrExp  :  14
            equalityExp  :  17
-           expression  :  54
            multiplicativeExp  :  20
            primaryExp  :  22
            relationalExp  :  18
 
 State30:
     ACTION:
-           (  :  S55
+           (  :  S56
     GOTO:
 
 State31:
@@ -490,14 +491,14 @@ State31:
            while  :  R14
            }  :  R14
     GOTO:
-           statements  :  56
+           statements  :  57
 
 State32:
     ACTION:
-           ;  :  S58
-           ID  :  S59
+           ;  :  S59
+           ID  :  S60
     GOTO:
-           initDeclarator  :  57
+           initDeclarator  :  58
 
 State33:
     ACTION:
@@ -539,7 +540,7 @@ State36:
     GOTO:
            logicalAndExp  :  16
            additiveExp  :  19
-           assignmentExp  :  60
+           assignmentExp  :  61
            unaryExp  :  21
            constant  :  25
            primaryExp  :  22
@@ -561,7 +562,7 @@ State37:
            integer  :  R50
            while  :  R50
     GOTO:
-           M  :  61
+           M  :  62
 
 State38:
     ACTION:
@@ -576,7 +577,7 @@ State38:
            additiveExp  :  19
            constant  :  25
            primaryExp  :  22
-           logicalOrExp  :  62
+           logicalOrExp  :  63
            equalityExp  :  17
            multiplicativeExp  :  20
            relationalExp  :  18
@@ -595,25 +596,9 @@ State39:
            integer  :  R50
            while  :  R50
     GOTO:
-           M  :  63
+           M  :  64
 
 State40:
-    ACTION:
-           (  :  S26
-           +  :  S24
-           -  :  S23
-           ID  :  S51
-           character  :  S28
-           integer  :  S27
-    GOTO:
-           additiveExp  :  19
-           constant  :  25
-           multiplicativeExp  :  20
-           primaryExp  :  22
-           relationalExp  :  64
-           unaryExp  :  21
-
-State41:
     ACTION:
            (  :  S26
            +  :  S24
@@ -629,22 +614,23 @@ State41:
            relationalExp  :  65
            unaryExp  :  21
 
-State42:
+State41:
     ACTION:
            (  :  S26
            +  :  S24
-           character  :  S28
-           ID  :  S51
            -  :  S23
+           ID  :  S51
+           character  :  S28
            integer  :  S27
     GOTO:
-           additiveExp  :  66
+           additiveExp  :  19
            constant  :  25
            multiplicativeExp  :  20
            primaryExp  :  22
+           relationalExp  :  66
            unaryExp  :  21
 
-State43:
+State42:
     ACTION:
            (  :  S26
            +  :  S24
@@ -659,7 +645,7 @@ State43:
            primaryExp  :  22
            unaryExp  :  21
 
-State44:
+State43:
     ACTION:
            (  :  S26
            +  :  S24
@@ -674,7 +660,7 @@ State44:
            primaryExp  :  22
            unaryExp  :  21
 
-State45:
+State44:
     ACTION:
            (  :  S26
            +  :  S24
@@ -684,6 +670,21 @@ State45:
            integer  :  S27
     GOTO:
            additiveExp  :  69
+           constant  :  25
+           multiplicativeExp  :  20
+           primaryExp  :  22
+           unaryExp  :  21
+
+State45:
+    ACTION:
+           (  :  S26
+           +  :  S24
+           character  :  S28
+           ID  :  S51
+           -  :  S23
+           integer  :  S27
+    GOTO:
+           additiveExp  :  70
            constant  :  25
            multiplicativeExp  :  20
            primaryExp  :  22
@@ -699,7 +700,7 @@ State46:
            integer  :  S27
     GOTO:
            constant  :  25
-           multiplicativeExp  :  70
+           multiplicativeExp  :  71
            primaryExp  :  22
            unaryExp  :  21
 
@@ -713,7 +714,7 @@ State47:
            integer  :  S27
     GOTO:
            constant  :  25
-           multiplicativeExp  :  71
+           multiplicativeExp  :  72
            primaryExp  :  22
            unaryExp  :  21
 
@@ -728,7 +729,7 @@ State48:
     GOTO:
            constant  :  25
            primaryExp  :  22
-           unaryExp  :  72
+           unaryExp  :  73
 
 State49:
     ACTION:
@@ -741,7 +742,7 @@ State49:
     GOTO:
            constant  :  25
            primaryExp  :  22
-           unaryExp  :  73
+           unaryExp  :  74
 
 State50:
     ACTION:
@@ -802,17 +803,22 @@ State52:
 
 State53:
     ACTION:
-           )  :  S74
+           )  :  S75
            ,  :  S36
     GOTO:
 
 State54:
     ACTION:
-           )  :  S75
-           ,  :  S36
+           )  :  S76
     GOTO:
 
 State55:
+    ACTION:
+           ,  :  S36
+           )  :  R52
+    GOTO:
+
+State56:
     ACTION:
            (  :  S26
            +  :  S24
@@ -821,6 +827,8 @@ State55:
            -  :  S23
            integer  :  S27
     GOTO:
+           expression  :  55
+           T  :  77
            logicalAndExp  :  16
            additiveExp  :  19
            unaryExp  :  21
@@ -828,17 +836,16 @@ State55:
            constant  :  25
            logicalOrExp  :  14
            equalityExp  :  17
-           expression  :  76
            multiplicativeExp  :  20
            primaryExp  :  22
            relationalExp  :  18
 
-State56:
+State57:
     ACTION:
            character  :  R50
            ID  :  R50
            -  :  R50
-           }  :  S77
+           }  :  S78
            (  :  R50
            {  :  R50
            ;  :  R50
@@ -849,12 +856,12 @@ State56:
     GOTO:
            M  :  2
 
-State57:
+State58:
     ACTION:
-           ;  :  S78
+           ;  :  S79
     GOTO:
 
-State58:
+State59:
     ACTION:
            (  :  R18
            {  :  R18
@@ -869,20 +876,20 @@ State58:
            }  :  R18
     GOTO:
 
-State59:
+State60:
     ACTION:
-           =  :  S79
+           =  :  S80
            ;  :  R20
     GOTO:
 
-State60:
+State61:
     ACTION:
            )  :  R23
            ,  :  R23
            ;  :  R23
     GOTO:
 
-State61:
+State62:
     ACTION:
            (  :  S26
            +  :  S24
@@ -891,7 +898,7 @@ State61:
            -  :  S23
            integer  :  S27
     GOTO:
-           logicalAndExp  :  80
+           logicalAndExp  :  81
            additiveExp  :  19
            constant  :  25
            primaryExp  :  22
@@ -900,7 +907,7 @@ State61:
            relationalExp  :  18
            unaryExp  :  21
 
-State62:
+State63:
     ACTION:
            ||  :  S37
            )  :  R25
@@ -908,7 +915,7 @@ State62:
            ;  :  R25
     GOTO:
 
-State63:
+State64:
     ACTION:
            (  :  S26
            +  :  S24
@@ -919,13 +926,13 @@ State63:
     GOTO:
            additiveExp  :  19
            constant  :  25
-           equalityExp  :  81
+           equalityExp  :  82
            primaryExp  :  22
            multiplicativeExp  :  20
            relationalExp  :  18
            unaryExp  :  21
 
-State64:
+State65:
     ACTION:
            ,  :  R31
            !=  :  R31
@@ -940,7 +947,7 @@ State64:
            ||  :  R31
     GOTO:
 
-State65:
+State66:
     ACTION:
            ,  :  R32
            !=  :  R32
@@ -955,7 +962,7 @@ State65:
            ||  :  R32
     GOTO:
 
-State66:
+State67:
     ACTION:
            ;  :  R34
            +  :  S46
@@ -972,7 +979,7 @@ State66:
            ||  :  R34
     GOTO:
 
-State67:
+State68:
     ACTION:
            ;  :  R35
            +  :  S46
@@ -989,7 +996,7 @@ State67:
            ||  :  R35
     GOTO:
 
-State68:
+State69:
     ACTION:
            ;  :  R36
            +  :  S46
@@ -1006,7 +1013,7 @@ State68:
            ||  :  R36
     GOTO:
 
-State69:
+State70:
     ACTION:
            ;  :  R37
            +  :  S46
@@ -1023,7 +1030,7 @@ State69:
            ||  :  R37
     GOTO:
 
-State70:
+State71:
     ACTION:
            &&  :  R39
            *  :  S48
@@ -1042,7 +1049,7 @@ State70:
            ||  :  R39
     GOTO:
 
-State71:
+State72:
     ACTION:
            &&  :  R40
            *  :  S48
@@ -1061,7 +1068,7 @@ State71:
            ||  :  R40
     GOTO:
 
-State72:
+State73:
     ACTION:
            ,  :  R42
            !=  :  R42
@@ -1080,7 +1087,7 @@ State72:
            ||  :  R42
     GOTO:
 
-State73:
+State74:
     ACTION:
            ,  :  R43
            !=  :  R43
@@ -1099,7 +1106,7 @@ State73:
            ||  :  R43
     GOTO:
 
-State74:
+State75:
     ACTION:
            ,  :  R49
            !=  :  R49
@@ -1118,7 +1125,7 @@ State74:
            ||  :  R49
     GOTO:
 
-State75:
+State76:
     ACTION:
            (  :  R50
            ;  :  R50
@@ -1131,15 +1138,14 @@ State75:
            integer  :  R50
            while  :  R50
     GOTO:
-           M  :  82
-
-State76:
-    ACTION:
-           )  :  S83
-           ,  :  S36
-    GOTO:
+           M  :  83
 
 State77:
+    ACTION:
+           )  :  S84
+    GOTO:
+
+State78:
     ACTION:
            !EOF!  :  R12
            (  :  R12
@@ -1156,7 +1162,7 @@ State77:
            }  :  R12
     GOTO:
 
-State78:
+State79:
     ACTION:
            char  :  S34
            int  :  S33
@@ -1172,10 +1178,10 @@ State78:
            while  :  R19
            }  :  R19
     GOTO:
-           declaration  :  84
+           declaration  :  85
            typeSpecifier  :  32
 
-State79:
+State80:
     ACTION:
            (  :  S26
            +  :  S24
@@ -1186,7 +1192,7 @@ State79:
     GOTO:
            logicalAndExp  :  16
            additiveExp  :  19
-           assignmentExp  :  85
+           assignmentExp  :  86
            unaryExp  :  21
            constant  :  25
            primaryExp  :  22
@@ -1195,7 +1201,7 @@ State79:
            multiplicativeExp  :  20
            relationalExp  :  18
 
-State80:
+State81:
     ACTION:
            &&  :  S39
            ||  :  R27
@@ -1204,7 +1210,7 @@ State80:
            ;  :  R27
     GOTO:
 
-State81:
+State82:
     ACTION:
            !=  :  S41
            ,  :  R29
@@ -1215,7 +1221,7 @@ State81:
            ;  :  R29
     GOTO:
 
-State82:
+State83:
     ACTION:
            (  :  S26
            ;  :  S12
@@ -1242,10 +1248,10 @@ State82:
            primaryExp  :  22
            relationalExp  :  18
            selectionStatement  :  4
-           statement  :  86
+           statement  :  87
            whileStatement  :  5
 
-State83:
+State84:
     ACTION:
            (  :  R50
            ;  :  R50
@@ -1258,9 +1264,9 @@ State83:
            integer  :  R50
            while  :  R50
     GOTO:
-           M  :  87
+           M  :  88
 
-State84:
+State85:
     ACTION:
            (  :  R17
            ;  :  R17
@@ -1275,12 +1281,12 @@ State84:
            }  :  R17
     GOTO:
 
-State85:
+State86:
     ACTION:
            ;  :  R21
     GOTO:
 
-State86:
+State87:
     ACTION:
            !EOF!  :  R4
            (  :  R4
@@ -1296,9 +1302,9 @@ State86:
            while  :  R4
            }  :  R4
     GOTO:
-           N  :  88
+           N  :  89
 
-State87:
+State88:
     ACTION:
            (  :  S26
            ;  :  S12
@@ -1325,15 +1331,15 @@ State87:
            primaryExp  :  22
            relationalExp  :  18
            selectionStatement  :  4
-           statement  :  89
+           statement  :  90
            whileStatement  :  5
 
-State88:
+State89:
     ACTION:
-           else  :  S90
+           else  :  S91
     GOTO:
 
-State89:
+State90:
     ACTION:
            !EOF!  :  R3
            (  :  R3
@@ -1350,7 +1356,7 @@ State89:
            }  :  R3
     GOTO:
 
-State90:
+State91:
     ACTION:
            (  :  R50
            ;  :  R50
@@ -1363,9 +1369,9 @@ State90:
            integer  :  R50
            while  :  R50
     GOTO:
-           M  :  91
+           M  :  92
 
-State91:
+State92:
     ACTION:
            (  :  S26
            ;  :  S12
@@ -1392,10 +1398,10 @@ State91:
            primaryExp  :  22
            relationalExp  :  18
            selectionStatement  :  4
-           statement  :  92
+           statement  :  93
            whileStatement  :  5
 
-State92:
+State93:
     ACTION:
            !EOF!  :  R5
            (  :  R5

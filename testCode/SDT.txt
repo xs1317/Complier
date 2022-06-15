@@ -1,0 +1,52 @@
+0  :  S -> statements
+1  :  constant -> integer           {constant.addr = integer.value}
+2  :  constant -> character       {constant.addr = integer.value}
+3  :  whileStatement -> while M ( expression ) M statement
+4  :  selectionStatement -> if ( expression ) M statement
+5  :  selectionStatement -> if ( expression ) M statement N else M statement
+6  :  statement -> selectionStatement
+7  :  statement -> whileStatement
+8  :  statement -> compoundStatement
+9  :  statement -> expressionStatement
+10  :  expressionStatement -> expression ;
+11  :  expressionStatement -> ;
+12  :  compoundStatement -> { declaration statements }
+13  :  statements -> statements M statement
+14  :  statements -> #
+15  :  typeSpecifier -> int
+16  :  typeSpecifier -> char
+17  :  declaration -> typeSpecifier initDeclarator ; declaration
+18  :  declaration -> typeSpecifier ;
+19  :  declaration -> #
+20  :  initDeclarator -> ID
+21  :  initDeclarator -> ID = assignmentExp
+22  :  expression -> assignmentExp
+23  :  expression -> expression , assignmentExp
+24  :  assignmentExp -> logicalOrExp
+25  :  assignmentExp -> ID = logicalOrExp
+26  :  logicalOrExp -> logicalAndExp
+27  :  logicalOrExp -> logicalOrExp || M logicalAndExp
+28  :  logicalAndExp -> equalityExp
+29  :  logicalAndExp -> logicalAndExp && M equalityExp
+30  :  equalityExp -> relationalExp
+31  :  equalityExp -> equalityExp == relationalExp
+32  :  equalityExp -> equalityExp != relationalExp
+33  :  relationalExp -> additiveExp
+34  :  relationalExp -> relationalExp < additiveExp
+35  :  relationalExp -> relationalExp <= additiveExp
+36  :  relationalExp -> relationalExp > additiveExp
+37  :  relationalExp -> relationalExp >= additiveExp
+38  :  additiveExp -> multiplicativeExp
+39  :  additiveExp -> additiveExp + multiplicativeExp
+40  :  additiveExp -> additiveExp - multiplicativeExp
+41  :  multiplicativeExp -> unaryExp                                         {left.addr=unaryExp.addr  delete}
+42  :  multiplicativeExp -> multiplicativeExp * unaryExp           {left.addr=new Temp()  gen delete}
+43  :  multiplicativeExp -> multiplicativeExp / unaryExp	 {left.addr=new Temp()  gen delete}
+44  :  unaryExp -> primaryExp                      {unartExp.addr = primaryExp.addr}
+45  :  unaryExp -> - primaryExp                    {unartExp.addr = new Temp()  gen()}
+46  :  unaryExp -> + primaryExp 	     {unartExp.addr = new Temp()  gen()}	
+47  :  primaryExp -> ID                                  {primaryExp = ID.addr}
+48  :  primaryExp -> constant                          {primaryExp = const.addr}
+49  :  primaryExp -> ( expression )                  {primaryExp = expression.addr}
+50  :  M -> #
+51  :  N -> #
