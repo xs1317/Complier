@@ -24,8 +24,8 @@ statements -> '#'
 typeSpecifier -> 'int'
 typeSpecifier -> 'char'
 
-declaration -> typeSpecifier initDeclarator ';' declaration
-declaration -> typeSpecifier ';'
+declaration -> typeSpecifier  initDeclarator ';' declaration
+declaration -> typeSpecifier  ';'
 declaration -> '#'
 
 initDeclarator ->  ID

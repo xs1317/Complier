@@ -2,7 +2,10 @@
 #include"lex.h"
 #include"SLR.h"
 #include<stack>
+#include<functional>
 using namespace std;
+
+string formulaPath = "formula.txt";
 
 bool flag = false;
 // 用unordered_map构建符号表 快速查找
@@ -49,6 +52,10 @@ string convertName(int name)
 	}
 }
 
+#pragma region Token
+
+
+
 //这四个类用于管理不同的词法单元
 class Token
 {
@@ -71,7 +78,10 @@ public:
 	{
 		return "<TokenName=" + toString() + "," + "value=Null>";
 	}
-
+	virtual string getValue()
+	{
+		return "";
+	}
 };
  
 //整型常量
@@ -93,7 +103,10 @@ public:
 	{
 		return "<TokenName=INTEGER,value=" + toString() + ">";
 	}
-
+	string getValue()
+	{
+		return to_string(value);
+	}
 };
 
 //字符常量
@@ -118,6 +131,10 @@ public:
 	{
 		return 1;
 	};
+	string getValue()
+	{
+		return to_string(value);
+	}
 };
 
 //保留字:变量类型TYPE应当为Word的子类，应为TYPE都是保留字
@@ -158,10 +175,77 @@ public:
 		return "<TokenName=" + TokenName + "," + "value=" + lexeme + ">";
 	}
 
+	string getValue()
+	{
+		return lexeme;
+	}
+
 };
 
+//标识符类没有用到
+class Id :Word
+{
+public:
+	string type;
+	int width;
+	string lexeme;
 
-//基本数据类型:int 和 char,不做存储分配和数组访问 不需要知道大小
+	Id() :Word()
+	{}
+
+	Id(string le) :Word(le, Tag::ID)
+	{
+		lexeme = le;
+	}
+};
+
+//用于记录标识符环境没有用到
+class Env
+{
+public:
+	unordered_map<string, class Id> Table;
+	Env* parent = NULL;
+
+	Env()
+	{
+		parent = NULL;
+	}
+
+	Env(Env& v)
+	{
+		parent = &v;
+	}
+
+	bool put(string key, Id i)
+	{
+		if (Table.find(key) == Table.end())
+		{
+			Table[key] = i;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	Id* find(string key)
+	{
+		for (Env* e = this; e != NULL; e = e->parent)
+		{
+			if (e->Table.find(key) != Table.end())
+			{
+				Id* f = &e->Table.at(key);
+				return f;
+			}
+			else
+			{
+				return NULL;
+			}
+		}
+	}
+};
+//基本数据类型:int 和 char,不做存储分配和数组访问 不需要知道大小,也没有使用
+
 class Type :public Word
 {
 public:
@@ -196,6 +280,8 @@ public:
 			return Type("char", CHAR, 1);
 	}
 };
+#pragma endregion
+
 
 // 做词法分析处理的类
 // 键：词素，值：Token对象
@@ -275,6 +361,7 @@ public:
 			else if (peek == '/')				//略过注释
 			{
 				if (readch('*'))
+				{
 					while (1)
 					{
 						readch();
@@ -287,6 +374,14 @@ public:
 							}
 						}
 					}
+				}
+				//应该为除号
+				else
+				{
+					index -=2;
+					readch();
+					break;
+				}
 			}
 			else break;
 		}
@@ -563,34 +658,532 @@ public:
 	}
 };
 
+
+
+//为了方便起见，加入所有需要的属性
+vector<int> tempV;
+//找到一个可以用的
+int findTempV()
+{
+	for (int i = 0; i < tempV.size(); i++)
+	{
+		if (tempV[i] == 0)
+		{
+			tempV[i] = 1;
+			return i;
+		}
+	}
+	
+	tempV.push_back(1);
+	return tempV.size() - 1;
+}
+void releaseTempV(int i)
+{
+	if(i!=-1)
+		tempV[i] = 0;
+}
 typedef struct t
 {
 	int status;
 	string symbol;
-	t(int s, string y) :status(s), symbol(y) {};
+	
+	Token* token;
+	//addr为ID入口或常量
+	string addr;
+	int temp;
+	//-1表示未使用临时变量
+	t(int s, string y,Token* t=NULL,int tem = -1) :status(s), symbol(y),token(t),temp(tem){};
 }ParserItem;
 
 
 typedef struct k
 {
+	string op;
+	string src1;
+	string src2;
+	string dest;
+	k(string o, string sr1, string sr2, string des) :op(o), src1(sr1), src2(sr2), dest(des) {}
+
+	string show()
+	{
+		return "( " + op + ", " + src1 + ", " + src2 + " ," + dest + " )";
+	}
+
+}formula;
+
+//标识符环境
+Env *env;
+vector<formula> code;
+
+//用于传递继承属性
+string type;
+int width;
+int nextquad;
+void gen(int nextquad, string op, string src1, string src2, string dest)
+{
+	code.push_back(formula(op, src1, src2, dest));
+}
+
+#pragma region  SDTaction
+ParserItem transP0(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义分析命令" << endl;
+	return ParserItem(-1, "");
+}
+ParserItem transP1(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义分析命令" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].token->getValue();
+	return pit;
+}
+
+ParserItem transP2(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义分析命令" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].token->getValue();
+	return pit;
+}
+
+ParserItem transP15(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义分析命令" << endl;
+	type = "int";
+	width = 4;
+	return ParserItem(-1, "");
+}
+
+ParserItem transP16(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	type = "char";
+	width = 1;
+	return ParserItem(-1, "");
+}
+
+ParserItem transP22(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP22(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+//逗号表达式，取最左边的传递
+ParserItem transP23(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP24(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP25(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//无需生成临时变量
+	pit.addr = items[0].token->getValue();
+	
+	//生成四元式
+	gen(nextquad++, "=", items[2].addr, "", items[0].token->getValue());
+
+	//销毁临时变量
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP26(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP27(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "or", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP28(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP29(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "and", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP30(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP31(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "==", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP32(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "!=", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP33(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP34(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "<", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP35(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "<=", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP36(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, ">", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP37(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, ">=", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP38(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP39(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "+", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP40(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "-", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP41(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP42(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "*", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP43(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	//生成新的临时变量
+	pit.temp = findTempV();
+
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	//生成四元式
+	gen(nextquad++, "/", items[0].addr, items[2].addr, addr);
+
+	//销毁临时变量
+	releaseTempV(items[0].temp);
+	releaseTempV(items[2].temp);
+	return pit;
+}
+
+ParserItem transP44(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP45(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.temp = findTempV();
+
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	gen(nextquad++, "-", items[1].addr, "", addr);
+	return pit;
+}
+
+ParserItem transP46(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.temp = findTempV();
+
+	string addr = "temp" + to_string(pit.temp);
+	pit.addr = addr;
+	gen(nextquad++, "+", items[1].addr, "", addr);
+	return pit;
+}
+
+ParserItem transP47(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].token->getValue();
+	return pit;
+}
+
+ParserItem transP48(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[0].addr;
+	return pit;
+}
+
+ParserItem transP49(production p, vector<ParserItem> items)
+{
+	cout << "	调用了一个语义动作" << endl;
+	ParserItem pit(-1, "");
+	pit.addr = items[1].addr;
+	return pit;
+}
+#pragma endregion
 
 
-};
+vector< ParserItem(*)(production, vector<ParserItem>)> trans;
+void initTrans()
+{
+	trans.resize(wfdata.productions.size());
+	trans[0] = transP0;
+	trans[1] = transP1;
+	trans[2] = transP2;
+	trans[22] = transP22;
+	trans[23] = transP23;
+	trans[24] = transP24;
+	trans[25] = transP25;
+	trans[26] = transP26;
+	trans[27] = transP27;
+	trans[28] = transP28;
+	trans[29] = transP29;
+	trans[30] = transP30;
+	trans[31] = transP31;
+	trans[32] = transP32;
+	trans[33] = transP33;
+	trans[34] = transP34;
+	trans[35] = transP35;
+	trans[36] = transP36;
+	trans[37] = transP37;
+	trans[38] = transP38;
+	trans[39] = transP39;
+	trans[40] = transP40;
+	trans[41] = transP41;
+	trans[42] = transP42;
+	trans[43] = transP43;
+	trans[44] = transP44;
+	trans[45] = transP45;
+	trans[46] = transP46;
+	trans[47] = transP47;
+	trans[48] = transP48;
+	trans[49] = transP49;
+}
 
+
+ParserItem SDT(production p, vector<ParserItem> items)
+{
+	auto t = trans[p.id];
+	if (t != NULL)
+		return t(p, items);
+	else
+		return ParserItem(-1, "");
+}
+
+//语法分析器
 class Parser
 {
 public:
 	vector <class Token*> TokenList;   //词法单元序列
 	vector<unordered_map<string, int>> GOTOtable;
 	vector <unordered_map<string, Actioncell>> ACTIONtable;
-	
+
+
+
 	Parser(vector<class Token*> T,SLR s)
 	{
 		TokenList = T;
 		GOTOtable = s.GOTOtable;
 		ACTIONtable = s.ACTIONtable;
 	}
-
 
 	//利用ACTIONtable和GOTOtable对词法分析获得的单词串进行分析
 	//打印规约过程
@@ -606,32 +1199,52 @@ public:
 		cout << "------------------语法分析-------------------" << endl;
 
 		//取首个符号
+		Token* aptr = TokenList[Tokenindex];
 		Token a = *TokenList[Tokenindex++];
+
 		while (true)
 		{
 			ParserItem s = parseStack.top();
 			//查找动作
+
 			if ( ACTIONtable[s.status].find(convertName(a.Name)) != ACTIONtable[s.status].end())
 			{
 				Actioncell act = ACTIONtable[s.status].at(convertName(a.Name));
-				//移进动作
+				//移进动作,引进来的一定是Vt
 				if (act.op == "S")
 				{
-					parseStack.push(ParserItem(act.dest, convertName(a.Name)));
+					parseStack.push(ParserItem(act.dest, convertName(a.Name),aptr));
+					aptr = TokenList[Tokenindex];
 					a = *TokenList[Tokenindex++];
 					cout << act.op<< act.dest << endl;
+					//大括号改变 标识符环境
+
 				}
 				//规约动作
 				else if (act.op == "R")
 				{
+
 					//获取规约用的产生式
 					production p = wfdata.productions[act.dest];
+					vector<ParserItem> tempItems;
 					for (int i = 0; i < p.length; i++)
+					{
+						ParserItem topItem = parseStack.top();
+						tempItems.push_back(topItem);
 						parseStack.pop();
+					}
+					cout << p.toString() << endl;;
 					//获取当前栈顶
 					ParserItem nowTop = parseStack.top();
-					parseStack.push(ParserItem( GOTOtable[nowTop.status][p.left] , p.left));
-					cout << p.toString() << endl;;
+					//求解左部属性（有副作用）
+					reverse(tempItems.begin(), tempItems.end());
+					ParserItem newParserItem = SDT(p, tempItems);
+					//查分析表获得左部的状态与符号
+					newParserItem.status = GOTOtable[nowTop.status][p.left];
+					newParserItem.symbol = p.left;
+					//插入分析栈
+					parseStack.push(newParserItem);
+					
 
 				}
 				else if (act.op == "ACC")
@@ -643,12 +1256,29 @@ public:
 			else
 			{
 				cout << "出错" << endl;
+				if (a.Name == 270)
+				{
+					cout << "意外的declaration语句" << endl;
+				}
 				break;
 			}
 		}
-
 	}
+
 };
+
+void showFormula()
+{
+	ofstream outFirst(formulaPath);
+	cout << "\n\n部分语句四元式如下:\n";
+
+	for (auto i : code)
+	{
+		string temp = "(" + i.op + " , " + i.src1 + " , " + i.src2 + " , " + i.dest + " )";
+		outFirst << temp << endl;
+		cout << temp << endl;;
+	}
+}
 
 vector<string> sourcePath = {"sourceCode.txt","sourceCode1.txt","sourceCode2.txt","sourceCode3.txt" ,"sourceCode4.txt" ,"sourceCode5.txt" };
 vector<string> tokenPath = { "Token.txt","Token1.txt","Token2.txt","Token3.txt" ,"Token4.txt" ,"Token5.txt" };
@@ -660,27 +1290,25 @@ int main()
 	cout << endl; cout << endl; cout << endl; cout << endl;
 	getFollow();
 	initWfdata();
+	wfdata.outProductions("productionsId.txt");
 	SLR mySLR;
 	mySLR.buildstates();
 	mySLR.showAllstates();
 	cout << "\n\n\n构造SLR分析表\n";
 	mySLR.buildSLR();
 	mySLR.showSLR();
-
+	initTrans();
 	Lexer lexer = Lexer();
 
 	Parser parser(lexer.TokenList, mySLR);
 
 	while (true)
 	{
-		lexer.init();
-		lexer.getInput();
-		if (lexer.scanAll()) 
-		{
-			lexer.showTokenList();
-			parser.TokenList = lexer.TokenList;
-			parser.parsing();
-		}
+		//重建环境
+		env = NULL;
+		code.clear();
+		nextquad = 0;
+
 		int selection;
 		cout << endl;
 		cin >> selection;
@@ -689,6 +1317,17 @@ int main()
 			lexer.sourceCodePath = sourcePath[selection];
 			lexer.tokenOutPath = tokenPath[selection];
 		}
+		lexer.init();
+
+		lexer.getInput();
+		if (lexer.scanAll()) 
+		{
+			lexer.showTokenList();
+			parser.TokenList = lexer.TokenList;
+			parser.parsing();
+			showFormula();
+		}
+
 
 	}
 

@@ -50,7 +50,7 @@ public:
 
 	void getvalue(set<string>t, set<string>n, map<string, set<string>>Fi, map<string, set<string>> Fo, map<string, list<production>> sp, vector<production>p);
 
-
+	void outProductions(string outPath);
 };
 
 

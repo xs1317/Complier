@@ -1,0 +1,5 @@
+<TokenName={,value=Null><TokenName=INTEGER,value=15><TokenName=/,value=Null><TokenName=INTEGER,value=6><TokenName=*,value=Null><TokenName=INTEGER,value=15><TokenName=/,value=Null><TokenName=INTEGER,value=3><TokenName=+,value=Null><TokenName=INTEGER,value=17><TokenName=-,value=Null><TokenName=INTEGER,value=5><TokenName=*,value=Null><TokenName=INTEGER,value=8><TokenName=;,value=Null>
+<TokenName=INTEGER,value=14><TokenName=-,value=Null><TokenName=INTEGER,value=7><TokenName=EQ,value===><TokenName=INTEGER,value=8><TokenName=-,value=Null><TokenName=INTEGER,value=1><TokenName=;,value=Null>
+<TokenName=INTEGER,value=15><TokenName=-,value=Null><TokenName=INTEGER,value=3><TokenName=,,value=Null><TokenName=INTEGER,value=7><TokenName=-,value=Null><TokenName=INTEGER,value=4><TokenName=;,value=Null>
+<TokenName=ID,value=b><TokenName==,value=Null><TokenName=CHARACTER,value=c><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=!EOF!,value=Null>

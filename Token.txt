@@ -1,0 +1,4 @@
+<TokenName={,value=Null><TokenName=INT,value=int><TokenName=ID,value=i><TokenName==,value=Null><TokenName=INTEGER,value=10><TokenName=;,value=Null>
+<TokenName=WHILE,value=while><TokenName=(,value=Null><TokenName=ID,value=i><TokenName=<,value=Null><TokenName=INTEGER,value=15><TokenName=),value=Null><TokenName={,value=Null><TokenName=ID,value=i><TokenName==,value=Null><TokenName=ID,value=i><TokenName=+,value=Null><TokenName=INTEGER,value=1><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=INT,value=int><TokenName=ID,value=b><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=!EOF!,value=Null>
