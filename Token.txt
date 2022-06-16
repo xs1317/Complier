@@ -1,2 +1,3 @@
-<TokenName=INT,value=int><TokenName=ID,value=a><TokenName==,value=Null><TokenName=INTEGER,value=155><TokenName=*,value=Null><TokenName=INTEGER,value=3><TokenName=;,value=Null>
-<TokenName=!EOF!,value=Null>
+<TokenName={,value=Null><TokenName=IF,value=if><TokenName=(,value=Null><TokenName=ID,value=a><TokenName=EQ,value===><TokenName=ID,value=b><TokenName=OR,value=||><TokenName=ID,value=c><TokenName=<,value=Null><TokenName=ID,value=d><TokenName=),value=Null><TokenName={,value=Null><TokenName=ID,value=c><TokenName==,value=Null><TokenName=INTEGER,value=15><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=ELSE,value=else><TokenName={,value=Null><TokenName=ID,value=b><TokenName==,value=Null><TokenName=INTEGER,value=5><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=},value=Null><TokenName=!EOF!,value=Null>

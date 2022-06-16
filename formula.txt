@@ -1,0 +1,8 @@
+0(== , a , b , temp0 )
+1(< , c , d , temp1 )
+2(or , temp0 ,  , temp2 )
+3(BNE , temp2 , 0 , 5 )
+4(GOTO ,  ,  , 7 )
+5(= , 15 ,  , c )
+6(GOTO ,  ,  , 8 )
+7(= , 5 ,  , b )

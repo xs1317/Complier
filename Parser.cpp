@@ -1,436 +1,19 @@
 // 扫描源程序，转化为单词串
 #include"lex.h"
 #include"SLR.h"
-#include"Token.h"
+#include "tools.h"
+#include"parser.h"
 #include<stack>
 #include<functional>
 using namespace std;
-
-string formulaPath = "formula.txt";
-
-
-
-
-//使name能和其他部分匹配，转为字符串
-string convertName(int name)
-{
-	if (name == 0)
-	{
-		return "!EOF!";
-	}
-	else if(name <= 256)
-	{
-		string a = "0";
-		a[0] = char(name);
-		return a;
-	}
-	else
-	{
-		string result;
-		switch (name)
-		{
-			case 257:result = "integer"; break;
-			case 258:result = "char"; break;
-			case 259:result = "ID"; break;
-			case 260:result = "if"; break;
-			case 261:result = "else"; break;
-			case 262:result = "do"; break;
-			case 263:result = "while"; break;
-			case 264:result = "&&"; break;
-			case 265:result = "||"; break;
-			case 266:result = "=="; break;
-			case 267:result = ">="; break;
-			case 268:result = "<="; break;
-			case 269:result = "!="; break;
-			case 270:result = "int"; break;
-			case 271:result = "character"; break;
-		}
-		return result;
-	}
-}
-
-
-
-// 做词法分析处理的类
-// 键：词素，值：Token对象
-class Lexer
-{
-public:
-	//创建符号表并初始化
-
-	int line = 1;
-	//存放下一个输入字符,要么为空要么指向下一个字符；为空时可以略过，自动读入下一个
-	char peek =' ';
-	int index = -1;
-	bool flag = true;
-	string sourceCodePath = "sourceCode1.txt";
-	string tokenOutPath = "Lex.txt";
-	string input;
-	vector <class Token*> TokenList;   //词法单元序列
-	unordered_map<string, Word>Words ={};
-
-	//将所有关键字和运算符加入Word
-	Lexer()
-	{
-		reserve(Word("if", Tag::IF));
-		reserve(Word("else", Tag::ELSE));
-		reserve(Word("do", Tag::DO));
-		reserve(Word("while", Tag::WHILE));
-		reserve(Word("&&", Tag::AND));
-		reserve(Word("||", Tag::OR));
-		reserve(Word("==", Tag::EQ));
-		reserve(Word(">=", Tag::GE));
-		reserve(Word("<=", Tag::LE));
-		reserve(Word("!=", Tag::NEQ));
-		reserve(Type("int", Tag::INT, 4));
-		reserve(Type("char", Tag::CHAR, 1));
-	}
-
-	void init()
-	{
-		line = 1;
-		peek = ' ';
-		index = -1;
-		input = "";
-		TokenList.clear();
-	}
-
-	void reserve(Word w)
-	{
-		Words.emplace(w.lexeme, w);
-	}
-
-	//读入下一个字符
-	void readch() 
-	{
-		index++;
-		peek = input[index];
-	}
-
-	//读入下一个字符并判断
-	bool readch(char c)
-	{
-		readch();
-
-		if (peek != c) 
-		return false;	//无需回退，识别下一个词素还停留在当前位置
-		peek = ' ';		//设置为空，下次扫描自动度下一个字符
-		return true;
-	}
-
-	Token * scan()
-	{
-		//略过空白符和注释,先进循环再读，所以每次应指向待识别部分第一个字符
-		for (;; readch())
-		{
-			
-			if (peek == ' ' || peek == '\t' || peek == '\r')continue;
-			else if (peek == '\n') line = line + 1;
-			else if (peek == '/')				//略过注释
-			{
-				if (readch('*'))
-				{
-					while (1)
-					{
-						readch();
-						if (peek == '*')
-						{
-							readch();
-							if (peek == '/')
-							{
-								break;
-							}
-						}
-					}
-				}
-				//应该为除号
-				else
-				{
-					index -=2;
-					readch();
-					break;
-				}
-			}
-			else break;
-		}
-		//整型
-		if (isdigit(peek))
-		{
-			int v = 0;
-			do
-			{
-				v = 10 * v + peek - '0';
-				readch();
-			} while (isdigit(peek));
-			Integer* t = new Integer(v);
-			return t;
-		}
-		//标识符与关键字
-		if (isalpha(peek))
-		{
-			string s = "";
-			do
-			{
-				s = s + peek;
-				readch();
-			} while (isalpha(peek));
-
-			//检查表项中是否有该关键字
-			if (Words.find(s) != Words.end())
-			{
-				return &Words.at(s);
-			}
-			else   //必然不是标识符
-			{
-				Word* w = new Word(s, Tag::ID);
-				reserve(*w);
-				return w;
-			}
-		}
-
-		//字符常量:  'x'，其中只允许出现一个字符，注意考虑转义符的情况 \" \'等
-		if (peek == '\'')
-		{
-			char c;
-			readch();
-			// 非转义符
-			if (peek != '\\' and peek != '\'')
-			{
-				c = peek;
-				readch();
-			}
-			else if (peek == '\'')
-			{
-				printf("line:%d,带引号的字符至少包含一个符号", line);
-				readch();
-			}
-			else  //转义符识别
-			{
-				//当前状态： 识别了一个 反斜杠     
-				//读入下一个字符
-				readch();
-
-				//数字,读入1、2、3位八进制字符
-				if (isdigit(peek))
-				{
-					int tempX = 0;
-					do
-					{
-						tempX = tempX * 8 + peek - '0';
-						readch();
-					} while (isdigit(peek));
-					// 应当回退一个
-					if (tempX > 255)
-					{
-						cout << tempX << "对字符类型太大,line:" << line << endl;
-						return NULL;
-					}
-					else
-						c = char(tempX);
-				}
-				else if (peek == 'x')// \xh \xhh 形式
-				{
-					readch();
-					int tempX = 0;
-					do
-					{
-						if (isdigit(peek))
-							tempX = tempX * 16 + peek - '0';
-						else
-							tempX = tempX * 16 + peek - 'A' + 10;
-						readch();
-					} while (isdigit(peek)|| peek>='A' && peek<='F');
-					if (tempX > 255)
-					{
-						cout << tempX << "对字符类型太大,line:" << line << endl;
-						return NULL;
-					}
-					else
-						c = char(tempX);
-				}
-				else
-				{
-					//后续定义了defalut 所以先进行数字的识别
-					switch (peek)
-					{
-					case '\'':
-						c = '\'';
-						break;
-					case '\"':
-						c = '\"';
-						break;
-					case '\?':
-						c = '\?';
-						break;
-					case '\\':
-						c = '\\';
-						break;
-					case 'a':
-						c = '\a';
-						break;
-					case 'b':
-						c = '\b';
-						break;
-					case 'f':
-						c = '\f';
-						break;
-					case 'n':
-						c = '\n';
-						break;
-					case 'r':
-						c = '\r';
-						break;
-					case 't':
-						c = '\t';
-						break;
-					case 'v':
-						c = '\v';
-						break;
-					default:	//对于未定义的转义符，忽略转义符
-						c = peek;
-						break;
-					}
-					readch();
-
-				}
-			}
-			// 所有的情况都必须再读入一个单引号才能进行
-			if (peek == '\'')
-			{
-				readch();//在识别下一个词素之前应当前进
-				Character* t = new Character(c);
-				return t;
-			}
-			else
-			{
-				cout << "缺失单引号或引号内有多个字符,line:" << line << endl;
-				return NULL;	
-			}
-		}
-
-
-		Token* t = NULL;
-		//其他情况
-		switch (peek)
-		{
-		
-		case '&':
-			if (readch('&'))  return &Words.at("&&");     //逻辑与符号
-			else // 按位与
-			{
-				t = new Token('&');
-				return t; 				
-			}
-		case '|':
-			if (readch('|')) return &Words.at("||");    //逻辑或
-			else                                        //按位或
-			{
-				t =new Token('|');
-				return t;
-			}	
-		case '=':
-			if (readch('=')) return &Words.at("==");    //比较运算：EQ
-			else			                            //赋值号
-			{
-				t = new Token('=');
-				return t;
-			}
-		case '<':
-			if (readch('=')) return &Words.at("<=");	//比较:LEQ
-			else                    					//比较：L
-			{
-				t = new Token('<');
-				return t;
-			}
-		case '>':
-			if (readch('=')) return &Words.at(">=");	//比较：GEQ
-			else                                        //比较：G
-			{
-				t = new Token('>');
-				return t;
-			}
-		case '!':
-			if (readch('=')) return &Words.at("!=");	//比较：NEQ
-			else                        				//取反
-			{
-				t = new Token('!');
-				return t;
-			}
-		//其他单目符号
-		case '\0':
-			t = new Token(peek);
-			return t;
-		default: 
-			t = new Token(peek);
-			readch();
-			return t;
-		}
-
-	}
-	void showTokenList()
-	{
-		ofstream outFile(tokenOutPath);
-
-		for (auto t : TokenList)
-		{
-			if (t != NULL)
-			{
-
-				string out = t->display();
-				if (t->Name == ';')
-					out += "\n";
-				cout << out;
-				outFile << out;
-
-			}
-			else
-			{
-				cout << "<未识别词素>" ;
-				outFile << "未识别词素";
-			}
-		}
-		cout << endl;
-	}
-
-	void getInput()
-	{
-		ifstream inputFile(sourceCodePath);
-		input = "";
-		int datalen = 0;
-		string temp;
-		while (getline(inputFile, temp))
-		{
-			input += temp;
-			input += '\n';
-		}
-	}
-
-	bool scanAll()
-	{
-		bool flag = true;
-		//写的lexer.scan() 实际上是每次获得一个词法单元
-		while (flag)
-		{
-			Token* temp = scan();
-			if(temp != NULL)
-				TokenList.push_back(temp);
-			else
-			{
-				cout << "词法分析失败" << endl;
-				return false;
-			}
-			if (temp->Name == 0) //获取到了文件结束符
-				flag = false;
-		}
-		return true;
-	}
-};
-
-
-
-//为了方便起见，加入所有需要的属性
+vector<string> sourcePath = { "sourceCode.txt","sourceCode1.txt","sourceCode2.txt","sourceCode3.txt" ,"sourceCode4.txt" ,"sourceCode5.txt" };
+vector<string> tokenPath = { "Token.txt","Token1.txt","Token2.txt","Token3.txt" ,"Token4.txt" ,"Token5.txt" };
+vector<formula> code;
 vector<int> tempV;
-//找到一个可以用的
+string type;
+int width;
+int nextquad;
+//找到一个可以用的临时变量单元
 int findTempV()
 {
 	for (int i = 0; i < tempV.size(); i++)
@@ -441,69 +24,35 @@ int findTempV()
 			return i;
 		}
 	}
-	
+
 	tempV.push_back(1);
 	return tempV.size() - 1;
 }
+
 void releaseTempV(int i)
 {
-	if(i!=-1)
+	if (i != -1)
 		tempV[i] = 0;
 }
-typedef struct t
-{
-	int status;
-	string symbol;
-	
-	Token* token;
-	//addr为ID入口或常量
-	string addr;
-	int temp;
-	int instr;
-	list<int> nextlist;
-	list<int> falselist;
-	list<int> truelist;
-	//-1表示未使用临时变量
-	t(int s, string y,Token* t=NULL,int tem = -1) :status(s), symbol(y),token(t),temp(tem){};
-}ParserItem;
 
-typedef struct k
-{
-	string op;
-	string src1;
-	string src2;
-	string dest;
-	k(string o, string sr1, string sr2, string des) :op(o), src1(sr1), src2(sr2), dest(des) {}
-
-	string show()
-	{
-		return "( " + op + ", " + src1 + ", " + src2 + " ," + dest + " )";
-	}
-
-}formula;
-
-//标识符环境
-Env *env;
-vector<formula> code;
-
-//用于传递继承属性
-string type;
-int width;
-int nextquad;
+//生成四元式
 void gen(int nextquad, string op, string src1, string src2, string dest)
 {
 	code.push_back(formula(op, src1, src2, dest));
 }
 
+//合并两个list链：主要用于进行回填操作
 list<int> merge(list<int>l1, list<int>l2)
 {
 	list<int> result;
 	for (auto i : l1)
 		result.push_back(i);
-	for(auto i:l2)
+	for (auto i : l2)
 		result.push_back(i);
 	return result;
 }
+
+//回填四元式第四个操作数
 void backpatch(list<int> l, int instr)
 {
 	for (int i : l)
@@ -521,10 +70,8 @@ ParserItem transP0(production p, vector<ParserItem> items)
 
 	backpatch(items[0].nextlist, nextquad);
 	return pit;
-
-
-
 }
+
 ParserItem transP1(production p, vector<ParserItem> items)
 {
 	cout << "	调用了一个语义分析命令" << endl;
@@ -572,7 +119,6 @@ ParserItem transP5(production p, vector<ParserItem> items)
 	list<int> temp = merge(items[5].nextlist, items[6].nextlist);
 	pit.nextlist = merge(temp, items[9].nextlist);
 
-	pit.nextlist = items[0].nextlist;
 	return pit;
 }
 
@@ -620,7 +166,7 @@ ParserItem transP12(production p, vector<ParserItem> items)
 {
 	cout << "	调用了一个语义分析命令" << endl;
 	ParserItem pit(-1, "");
-	
+
 	pit.nextlist = items[2].nextlist;
 
 	return pit;
@@ -714,7 +260,7 @@ ParserItem transP25(production p, vector<ParserItem> items)
 	ParserItem pit(-1, "");
 	//无需生成临时变量
 	pit.addr = items[0].token->getValue();
-	
+
 	//生成四元式
 	gen(nextquad++, "=", items[2].addr, "", items[0].token->getValue());
 
@@ -1032,6 +578,7 @@ ParserItem transP49(production p, vector<ParserItem> items)
 	return pit;
 }
 
+//M-># 记录下一条指令地址
 ParserItem transP50(production p, vector<ParserItem> items)
 {
 	cout << "	调用了一个语义动作" << endl;
@@ -1040,12 +587,13 @@ ParserItem transP50(production p, vector<ParserItem> items)
 	return pit;
 }
 
+//N-># 记录N的next链，生成一条GOTO
 ParserItem transP51(production p, vector<ParserItem> items)
 {
 	cout << "	调用了一个语义动作" << endl;
 	ParserItem pit(-1, "");
 	pit.nextlist.push_back(nextquad);
-	gen(nextquad,"GOTO", "", "", "");
+	gen(nextquad++, "GOTO", "", "", "");
 	return pit;
 }
 
@@ -1055,18 +603,17 @@ ParserItem transP52(production p, vector<ParserItem> items)
 {
 	cout << "	调用了一个语义动作" << endl;
 	ParserItem pit(-1, "");
-	
+
 	pit.truelist.push_back(nextquad);
-	gen(nextquad++,"BNE", items[0 ].addr, "0", "");
+	gen(nextquad++, "BNE", items[0].addr, "0", "");
 
 	pit.falselist.push_back(nextquad);
-	gen(nextquad++, "GOTO", "","", "");
+	gen(nextquad++, "GOTO", "", "", "");
 
 
 	return pit;
 }
 #pragma endregion
-
 
 vector< ParserItem(*)(production, vector<ParserItem>)> trans;
 void initTrans()
@@ -1117,7 +664,6 @@ void initTrans()
 	trans[51] = transP51;
 	trans[52] = transP52;
 }
-
 ParserItem SDT(production p, vector<ParserItem> items)
 {
 	auto t = trans[p.id];
@@ -1135,7 +681,7 @@ public:
 	vector<unordered_map<string, int>> GOTOtable;
 	vector <unordered_map<string, Actioncell>> ACTIONtable;
 
-
+	string formulaPath = "formula.txt";
 
 	Parser(vector<class Token*> T,SLR s)
 	{
@@ -1143,7 +689,20 @@ public:
 		GOTOtable = s.GOTOtable;
 		ACTIONtable = s.ACTIONtable;
 	}
+	void showFormula()
+	{
+		ofstream outFirst(formulaPath);
+		cout << "\n\n部分语句四元式如下:\n";
 
+		int index = 0;
+		for (auto i : code)
+		{
+			string temp = "(" + i.op + " , " + i.src1 + " , " + i.src2 + " , " + i.dest + " )";
+			outFirst << index << temp << endl;
+			cout << index << temp << endl;;
+			index++;
+		}
+	}
 	//利用ACTIONtable和GOTOtable对词法分析获得的单词串进行分析
 	//打印规约过程
 	void parsing()
@@ -1225,51 +784,35 @@ public:
 		}
 	}
 
+
 };
 
-void showFormula()
-{
-	ofstream outFirst(formulaPath);
-	cout << "\n\n部分语句四元式如下:\n";
 
-	int index = 0;
-	for (auto i : code)
-	{
-		string temp = "(" + i.op + " , " + i.src1 + " , " + i.src2 + " , " + i.dest + " )";
-		outFirst <<index<< temp << endl;
-		cout <<index<< temp << endl;;
-		index++;
-	}
-}
 
-vector<string> sourcePath = {"sourceCode.txt","sourceCode1.txt","sourceCode2.txt","sourceCode3.txt" ,"sourceCode4.txt" ,"sourceCode5.txt" };
-vector<string> tokenPath = { "Token.txt","Token1.txt","Token2.txt","Token3.txt" ,"Token4.txt" ,"Token5.txt" };
-//多遍扫描，构造一个序列存储单词串
 int main()
 { 
-	init();
-	getFirst();
 	cout << endl; cout << endl; cout << endl; cout << endl;
-	getFollow();
-	initWfdata();
+
 	wfdata.outProductions("productionsId.txt");
+
+
 	SLR mySLR;
 	mySLR.buildstates();
 	mySLR.showAllstates();
 	cout << "\n\n\n构造SLR分析表\n";
 	mySLR.buildSLR();
 	mySLR.showSLR();
-	initTrans();
+	
 	Lexer lexer = Lexer();
 
 	Parser parser(lexer.TokenList, mySLR);
-
+	initTrans();
 	while (true)
 	{
-		//重建环境
-		env = NULL;
+		//重建环境:清空四元式列表，初始化指令序号，清空临时变量分配表
 		code.clear();
 		nextquad = 0;
+		tempV.resize(0);
 
 		int selection;
 		cout << endl;
@@ -1280,16 +823,14 @@ int main()
 			lexer.tokenOutPath = tokenPath[selection];
 		}
 		lexer.init();
-
 		lexer.getInput();
 		if (lexer.scanAll()) 
 		{
 			lexer.showTokenList();
 			parser.TokenList = lexer.TokenList;
 			parser.parsing();
-			showFormula();
+			parser.showFormula();
 		}
-
 
 	}
 

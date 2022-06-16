@@ -1,23 +1,8 @@
 #include"tools.h"
 using namespace std;
+WF wfdata;
 
-
-
-string FirstOutPath = "First.txt";
-string FollowOutPath = "Follow.txt";
-int number = 0;                  //记录产生式编号
-set<string> Vt;//终结符集合
-set<string> Vn;//非终结符集合
-map<string, set<string>> First;//First集
-map<string, list<production>> split_productions;//分解后的产生式集合
-map<string, set<string>> Follow;//Follow集
-vector<production> productions;
-string fileName = "Grammar.txt";    //产生式存在data.txt中  以S作为开始符号
-WF wfdata = WF(Vt, Vn, First, Follow, split_productions,productions);
-
-
-
-#pragma region Definition
+#pragma region production
 production::production(int i, vector<string>r, string l)
 {
 	left = l;
@@ -47,24 +32,14 @@ bool production::operator==(const production& p)
 	return this->id == p.id;
 }
 
-WF::WF(set<string>t, set<string>n, map<string, set<string>>Fi, map<string, set<string>> Fo, map<string, list<production>> sp, vector<production>p)
-{
-	Vt = t;
-	Vn = n;
-	First = Fi;
-	Follow = Fo;
-	split_productions = sp;
-	productions = p;
-}
 
-void WF::getvalue(set<string>t, set<string>n, map<string, set<string>>Fi, map<string, set<string>> Fo, map<string, list<production>> sp, vector<production>p)
+#pragma endregion
+#pragma region WF
+WF::WF()
 {
-	Vt = t;
-	Vn = n;
-	First = Fi;
-	Follow = Fo;
-	split_productions = sp;
-	productions = p;
+	init();
+	getFirst();
+	getFollow();
 }
 
 void WF::outProductions(string outPath)
@@ -76,19 +51,7 @@ void WF::outProductions(string outPath)
 	}
 }
 
-#pragma endregion
-
-
-
-#pragma region tools
-
-void initWfdata()
-{
-	wfdata.getvalue(Vt, Vn, First, Follow, split_productions, productions);
-}
-
-
-bool followEqual(map<string, set<string>> oldM, map<string, set<string>> newM)
+bool WF::followEqual(map<string, set<string>> oldM, map<string, set<string>> newM)
 {
 	//检查是否所有的Vn都加进来了
 	if (oldM.size() == newM.size())
@@ -110,7 +73,7 @@ bool followEqual(map<string, set<string>> oldM, map<string, set<string>> newM)
 					return false;
 				}
 			}
-			
+
 		}
 		return true;
 	}
@@ -120,57 +83,22 @@ bool followEqual(map<string, set<string>> oldM, map<string, set<string>> newM)
 	}
 }
 
-bool isVn(string s)
+bool WF::isVn(string s)
 {
 	if (Vn.find(s) != Vn.end())
 		return true;
 	return false;
 }
 
-bool isVt(string s)
+bool WF::isVt(string s)
 {
 	if (Vt.find(s) != Vt.end())
 		return true;
 	return false;
 }
 
-//字符串以字符分割
-list<string> split(string str, string pattern)
-{
-	string::size_type pos;
-	list<string> result;
-	str += pattern;//扩展字符串以方便操作
-	int size = str.size();
-
-	for (int i = 0; i < size; i++)
-	{
-		pos = str.find(pattern, i);
-		if (pos < size)
-		{
-			string s = str.substr(i, pos - i);
-			if(s!=""&&s!=" ")
-				result.push_back(s);
-			i = pos + pattern.size() - 1;
-		}
-	}
-	return result;
-}
-
-//字符串删除特定字符
-string deletmember(string &s, char m) {
-
-	string::iterator it = s.begin();
-	for (it=s.begin(); it != s.end();) 
-	{
-		if (*it == m)it = s.erase(it);
-		else it++;
-	}
-	return s;
-}
-
-set<string> Vn2;
 //初始化产生式、Vt、Vn
-void init()
+void WF::init()
 {
 	string line;
 	ifstream in(fileName);
@@ -184,11 +112,9 @@ void init()
 			string right = line.substr(position + 2);
 			deletmember(right, '\t');
 			//加入新的非终结符号
-			if(Vn.find(left)==Vn.end())
+			if (Vn.find(left) == Vn.end())
 				Vn.insert(left);
 
-			if (Vn2.find(left) == Vn2.end()) 
-				Vn2.insert(left);
 
 			//分割右部并添加到产生式
 			list<string> splitRight = split(right, " ");
@@ -198,12 +124,12 @@ void init()
 			{
 				string temp = *it1;
 				//终结符号:对于''包括的终结符号 删除引号加入
-				if (temp[0] == '\'' || temp=="integer"||temp=="character" ||temp=="ID")
+				if (temp[0] == '\'' || temp == "integer" || temp == "character" || temp == "ID")
 				{
 					//加入新的终结符号，删除单引号
-					string tempa = deletmember(temp , '\'');
+					string tempa = deletmember(temp, '\'');
 					*it1 = tempa;
-					if(Vt.find(tempa)==Vt.end())
+					if (Vt.find(tempa) == Vt.end())
 						Vt.insert(tempa);
 
 				}
@@ -216,7 +142,7 @@ void init()
 
 			}
 			vector<string> sr(splitRight.begin(), splitRight.end());
-			production P = production(number++, sr,left);
+			production P = production(number++, sr, left);
 			productions.push_back(P);
 			split_productions[left].push_back(P);
 		}
@@ -224,9 +150,8 @@ void init()
 	Vt.insert("!EOF!");
 }
 
-//手动判断哪些符号可以推出空:S,statements,declaration,M,N ;不存在通过推导产生的空,不存在间接左递归
-set<string> nullSymbol{ "S","statements","declaration","M","N" };
-bool nullable(string symbol)
+
+bool WF::nullable(string symbol)
 {
 	if (nullSymbol.find(symbol) != nullSymbol.end())
 		return true;
@@ -235,7 +160,7 @@ bool nullable(string symbol)
 }
 
 //求某一个非终结符号的First集（可能有多个产生式）
-void getOneFirst(string s)
+void WF::getOneFirst(string s)
 {
 
 	//该非终结符号所有产生式右部
@@ -263,7 +188,7 @@ void getOneFirst(string s)
 					//将First(stemp)接入First(s)
 					First[s].insert(First[stemp].begin(), First[stemp].end());
 					//若该Vn可以推出空考察下一个符号
-					if (nullable(stemp))	
+					if (nullable(stemp))
 						continue;
 					else
 						break;
@@ -282,8 +207,123 @@ void getOneFirst(string s)
 	}
 }
 
+//求每个非终结符号的First集
+void WF::getFirst()
+{
+	ofstream outFirst(FirstOutPath);
+	for (set<string>::iterator sit = Vn.begin(); sit != Vn.end(); sit++)
+	{
+		getOneFirst(*sit);
+
+	}
+	cout << "文法各个非终结符号的First集如下所示(其中 '#' 表示空)：\r\n";
+	for (auto it = First.begin(); it != First.end(); it++)
+	{
+		string key = it->first;
+		set<string> F = it->second;
+		string outS = "First(" + key + ")={";
+		auto it2 = F.begin();
+		outS += " '" + *it2 + "'";
+		it2++;
+		for (; it2 != F.end(); it2++)
+		{
+			outS = outS + ", '" + *it2 + "' ";
+		}
+		outS = outS + " }\r\n";
+		cout << outS;
+		outFirst << outS;
+	}
+}
+
+//求解每个非终结符号的Follow集 三个步骤 反复考察每个产生式
+void WF::getFollow()
+{
+	//终结符号加入开始符号的FOLLOW集
+	Follow["S"].insert("!EOF!");
+	map<string, set<string>> oldFollow = Follow;
+	//重复下列动作直到Follow集不再改变
+	do
+	{
+		oldFollow = Follow;
+		//遍历每一条产生式
+		for (auto itPr = split_productions.begin(); itPr != split_productions.end(); itPr++)
+		{
+			string left = itPr->first;
+
+			list<production> rights = itPr->second;
+			//遍历所有右部
+			for (production Pright : rights)
+			{
+				//遍历右部每一个符号
+				for (vector<string>::iterator itR = Pright.right.begin(); itR != Pright.right.end(); itR++)
+				{
+					string Nowsymbol = *itR;
+					//忽视Vt
+					if (isVt(Nowsymbol))
+					{
+						continue;
+					}
+					else if (isVn(Nowsymbol))
+					{
+						vector<string>::iterator  itRnext = itR;
+						itRnext++;
+						//当前Vn在末尾
+						if (itRnext == Pright.right.end())
+						{
+							//Follow(left)加入Follow(nowsymbol)
+							Follow[Nowsymbol].insert(Follow[left].begin(), Follow[left].end());
+						}
+						else
+						{
+							list<string>nextSymbols = getNextSymbols(Pright.right, itRnext, Pright.right.end());
+							set<string>nextFirst = getSymbolsFollow(nextSymbols);
+							//后续串 的First集无空
+							if (nextFirst.find("#") == nextFirst.end())
+							{
+								Follow[Nowsymbol].insert(nextFirst.begin(), nextFirst.end());
+							}
+							else
+							{
+								//加入非空
+								for (string nf : nextFirst)
+								{
+									if (nf != "#")
+										Follow[Nowsymbol].insert(nf);
+								}
+								//Follow(left)加入Follow(nowsymbol)
+								Follow[Nowsymbol].insert(Follow[left].begin(), Follow[left].end());
+							}
+						}
+					}
+
+				}
+			}
+		}
+	} while (!followEqual(oldFollow, Follow));
+
+	ofstream outFollow(FollowOutPath);
+	cout << "文法各个非终结符号的Follow集如下所示(其中 '!EOF!' 表示终结符)：\r\n";
+	for (auto it = Follow.begin(); it != Follow.end(); it++)
+	{
+		string key = it->first;
+		set<string> F = it->second;
+		string outS = "Follow(" + key + ")={";
+		auto it2 = F.begin();
+		outS += " '" + *it2 + "'";
+		it2++;
+		for (; it2 != F.end(); it2++)
+		{
+			outS = outS + ", '" + *it2 + "' ";
+		}
+		outS = outS + " }\r\n";
+		cout << outS;
+		outFollow << outS;
+	}
+}
+#pragma endregion
+
 //求某迭代器后续所有串
-list<string> getNextSymbols(vector<string> src,vector<string>::iterator it,vector<string>::iterator end)
+list<string> getNextSymbols(vector<string> src, vector<string>::iterator it, vector<string>::iterator end)
 {
 	list<string> result;
 	for (; it != end; it++)
@@ -292,9 +332,16 @@ list<string> getNextSymbols(vector<string> src,vector<string>::iterator it,vecto
 	}
 	return result;
 }
+#pragma endregion
+
+
+
+#pragma region tools
+
+
 
 //求一串符号的First集
-set<string> getSymbolsFollow(list<string> symbols)
+set<string> WF::getSymbolsFollow(list<string> symbols)
 {
 
 	set<string> result;
@@ -347,119 +394,36 @@ set<string> getSymbolsFollow(list<string> symbols)
 	return result;
 }
 
-//求每个非终结符号的First集
-void getFirst()
+//字符串以字符分割
+list<string> split(string str, string pattern)
 {
-	ofstream outFirst(FirstOutPath);
-	for (set<string>::iterator sit = Vn.begin(); sit != Vn.end(); sit++)
-	{
-		getOneFirst(*sit);
+	string::size_type pos;
+	list<string> result;
+	str += pattern;//扩展字符串以方便操作
+	int size = str.size();
 
-	}
-	cout << "文法各个非终结符号的First集如下所示(其中 '#' 表示空)：\r\n";
-	for (auto it = First.begin(); it != First.end(); it++)
+	for (int i = 0; i < size; i++)
 	{
-		string key = it->first;
-		set<string> F = it->second;
-		string outS = "First(" + key + ")={";
-		auto it2 = F.begin();
-		outS += " '" + *it2+"'";
-		it2++;
-		for (; it2 != F.end(); it2++)
+		pos = str.find(pattern, i);
+		if (pos < size)
 		{
-			outS = outS + ", '" + *it2 + "' ";
+			string s = str.substr(i, pos - i);
+			if (s != "" && s != " ")
+				result.push_back(s);
+			i = pos + pattern.size() - 1;
 		}
-		outS = outS + " }\r\n";
-		cout << outS;
-		outFirst << outS;
 	}
+	return result;
 }
 
-//求解每个非终结符号的Follow集 三个步骤 反复考察每个产生式
-void getFollow()
-{
-	//终结符号加入开始符号的FOLLOW集
-	Follow["S"].insert("!EOF!");
-	map<string, set<string>> oldFollow = Follow;
-	//重复下列动作直到Follow集不再改变
-	do
+//字符串删除特定字符
+string deletmember(string& s, char m) {
+
+	string::iterator it = s.begin();
+	for (it = s.begin(); it != s.end();)
 	{
-		oldFollow = Follow;
-		//遍历每一条产生式
-		for (auto itPr = split_productions.begin(); itPr != split_productions.end(); itPr++)
-		{
-			string left = itPr->first;
-
-			list<production> rights = itPr->second;
-			//遍历所有右部
-			for(production Pright:rights)
-			{
-				//遍历右部每一个符号
-				for (vector<string>::iterator itR = Pright.right.begin();itR!=Pright.right.end();itR++)
-				{
-					string Nowsymbol = *itR;
-					//忽视Vt
-					if (isVt(Nowsymbol))
-					{
-						continue;
-					}
-					else if (isVn(Nowsymbol))
-					{
-						vector<string>::iterator  itRnext = itR;
-						itRnext++;
-						//当前Vn在末尾
-						if (itRnext == Pright.right.end())
-						{
-							//Follow(left)加入Follow(nowsymbol)
-							Follow[Nowsymbol].insert(Follow[left].begin(), Follow[left].end());
-						}
-						else
-						{
-							list<string>nextSymbols = getNextSymbols(Pright.right, itRnext,Pright.right.end());
-							set<string>nextFirst = getSymbolsFollow(nextSymbols);
-							//后续串 的First集无空
-							if (nextFirst.find("#") == nextFirst.end())
-							{
-								Follow[Nowsymbol].insert(nextFirst.begin(), nextFirst.end());
-							}
-							else
-							{
-								//加入非空
-								for (string nf : nextFirst)
-								{
-									if (nf != "#")
-										Follow[Nowsymbol].insert(nf);
-								}
-								//Follow(left)加入Follow(nowsymbol)
-								Follow[Nowsymbol].insert(Follow[left].begin(), Follow[left].end());
-							}
-						}
-					}
-
-				}
-			}
-		}
-	} while (!followEqual(oldFollow, Follow));
-
-	ofstream outFollow(FollowOutPath);
-	cout << "文法各个非终结符号的Follow集如下所示(其中 '!EOF!' 表示终结符)：\r\n";
-	for (auto it = Follow.begin(); it != Follow.end(); it++)
-	{
-		string key = it->first;
-		set<string> F = it->second;
-		string outS = "Follow(" + key + ")={";
-		auto it2 = F.begin();
-		outS += " '" + *it2 + "'";
-		it2++;
-		for (; it2 != F.end(); it2++)
-		{
-			outS = outS + ", '" + *it2 + "' ";
-		}
-		outS = outS + " }\r\n";
-		cout << outS;
-		outFollow << outS;
+		if (*it == m)it = s.erase(it);
+		else it++;
 	}
+	return s;
 }
-#pragma endregion
-
-

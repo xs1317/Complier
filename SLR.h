@@ -85,19 +85,25 @@ public:
 class SLR
 {
 public:
+	//状态ID，生成状态时使用
 	int Stateid = 0;
 
 	string StatesPath = "SLRstates.txt";
 	string SLRtablePath = "SLRtable.txt";
-	//用Vector存状态，其下标说明序号
+	//存储状态，下标表示序号
 	vector<State> SLRstates;
 
 	//GOTO表和ACTION表，用vector下标表示状态标号
-	//每一个状态的转移为map，当symbol不在map中进行出错处理,这样减少了空间占用但是时间复杂度提高
-	//可以用unorderedmap代替
+	//map<string,int> 表示接受某符号达到的状态
 	vector<unordered_map<string, int>> GOTOtable;
 	vector <unordered_map<string, Actioncell>> ACTIONtable;
+	
 
+	SLR();
+
+	/// <summary>
+	/// 
+	/// </summary>
 	void buildstates();
 	void showAllstates();
 	void buildSLR();
