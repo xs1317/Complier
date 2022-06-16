@@ -1,9 +1,13 @@
 #include"SLR.h"
+#include"tools.h"
 using namespace std;
 
 #pragma region Definition
 
-State::State() {}
+State::State() 
+{
+
+}
 State::State(vector<Item> ites)
 {
 	items = ites;
@@ -27,12 +31,12 @@ void State::CLOSURE()
 		//取出下一个符号
 		string nextSymbol = tempitem.p.right[tempitem.position];
 		nextSymbols.push_back(nextSymbol);
-		if (isVt(nextSymbol))
+		if (wfdata.isVt(nextSymbol))
 		{
 			continue;
 		}
 		//下一个符号为Vn 则加入以Vn为左部的所有产生式
-		else if (isVn(nextSymbol))
+		else if (wfdata.isVn(nextSymbol))
 		{
 			list<production>productions = wfdata.split_productions[nextSymbol];
 			for (production p : productions)
@@ -179,6 +183,8 @@ string Item::showItem()
 
 #pragma endregion
 
+SLR::SLR() {};
+
 void SLR::buildstates()
 {
 	//加入第一条产生式,初始化I0
@@ -268,12 +274,12 @@ void SLR::buildSLR()
 			string symbol = i->first;
 			int dest = i->second;
 			//当前项通过Vn转换
-			if (isVn(symbol))
+			if (wfdata.isVn(symbol))
 			{
 				VnGoto[symbol] = dest;
 			}
 			//先加入移进项目再考虑规约冲突
-			else if(isVt(symbol))
+			else if(wfdata.isVt(symbol))
 			{
 
 				Actioncell newaction = Actioncell("S",dest);

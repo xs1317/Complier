@@ -33,31 +33,43 @@ public:
 class WF
 {
 public:
-	set<string> Vt;//终结符集合
-	set<string> Vn;//非终结符集合
-	map<string, set<string>> First;//First集
-	map<string, set<string>> Follow;//Follow集
+	set<string> Vt;
+	set<string> Vn;
+	map<string, set<string>> First;
+	map<string, set<string>> Follow;				
 	map<string, list<production>> split_productions;//分解后的产生式集合
 	vector<production> productions;
 	string FirstOutPath = "First.txt";
 	string FollowOutPath = "Follow.txt";
-	string fileName = "Grammar.txt";    //产生式存在data.txt中  以S作为开始符号
+	string fileName = "Grammar.txt";    //文法产生式所在文件
 
 	//手动判断哪些符号可以推出空:S,statements,declaration,M,N ;不存在通过推导产生的空,不存在间接左递归
 	set<string> nullSymbol{ "S","statements","declaration","M","N" };
+	int number = 0;                  //记录产生式编号
 
-	WF(set<string>t, set<string>n, map<string, set<string>>Fi, map<string, set<string>> Fo, map<string, list<production>> sp, vector<production>p);
-
-	void getvalue(set<string>t, set<string>n, map<string, set<string>>Fi, map<string, set<string>> Fo, map<string, list<production>> sp, vector<production>p);
+	WF();
 
 	void outProductions(string outPath);
+	bool followEqual(map<string, set<string>> oldM, map<string, set<string>> newM);
+	void init();
+	void getFirst();
+	void getFollow();
+	set<string> getSymbolsFollow(list<string> symbols);
+	bool isVn(string s);
+	bool isVt(string s);
+	void getOneFirst(string s);
+	bool nullable(string symbol);
+
 };
 
-
 extern WF wfdata;
-void init();
-void getFirst();
-void getFollow();
-void initWfdata();
-bool isVn(string s);
-bool isVt(string s);
+
+
+//字符串以字符分割
+list<string> split(string str, string pattern);
+
+//字符串删除特定字符
+string deletmember(string& s, char m);
+
+//求某迭代器后续所有串
+list<string> getNextSymbols(vector<string> src, vector<string>::iterator it, vector<string>::iterator end);

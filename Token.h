@@ -9,6 +9,7 @@ using namespace std;
 // INTEGER表示整型常量     CHARACTER为字符常量     CHAR和INT为类型关键字
 enum Tag { INTEGER = 257, CHAR, ID, IF, ELSE, DO, WHILE, AND, OR, EQ, GE, LE, NEQ, INT, CHARACTER, BASIC };
 
+
 //这四个类用于管理不同的词法单元
 class Token
 {
@@ -17,7 +18,6 @@ public:
 	Token(int t);
 	Token() ;
 	//重载toString输出信息
-	string toString();
 	virtual string display();
 	virtual string getValue();
 };
@@ -28,23 +28,10 @@ class Integer :public Token
 public:
 	int value;
 
-	Integer(int value) :Token(Tag::INTEGER)
-	{
-		this->value = value;
-	}
+	Integer(int value);
 
-	string toString()
-	{
-		return to_string(value);
-	}
-	string display()
-	{
-		return "<TokenName=INTEGER,value=" + toString() + ">";
-	}
-	string getValue()
-	{
-		return to_string(value);
-	}
+	string display();
+	string getValue();
 };
 
 //字符常量
@@ -52,31 +39,11 @@ class Character :public Token
 {
 public:
 	char value;
-	Character(char value) :Token(Tag::CHARACTER)
-	{
-		this->value = value;
-	}
+	Character(char value);
 
-	string toString()
-	{
-		string a = "a";
-		a[0] = value;
-		return a;
-	}
-	string display()
-	{
-		return "<TokenName=CHARACTER,value=" + toString() + ">";
-	}
-	int getWidth()
-	{
-		return 1;
-	};
-	string getValue()
-	{
-		string a = "a";
-		a[0] = value;
-		return "'" + a + "'";
-	}
+	string display();
+	int getWidth();
+	string getValue();
 };
 
 //保留字:变量类型TYPE应当为Word的子类，应为TYPE都是保留字
@@ -85,46 +52,15 @@ class Word :public Token
 public:
 	// 词法单元名称
 	string lexeme = "";
-	Word(string s, int tag) :Token(tag)
-	{
-		this->lexeme = s;
-	}
 
-	Word() {};
+	Word(string s, int tag);
 
-	string toString()
-	{
-		return lexeme;
-	}
+	Word();
 
-	string display()
-	{
-		string TokenName = "";
-		switch (Name)
-		{
-		case 257:TokenName = "INTEGER"; break;
-		case 258:TokenName = "CHAR"; break;
-		case 259:TokenName = "ID"; break;
-		case 260:TokenName = "IF"; break;
-		case 261:TokenName = "ELSE"; break;
-		case 262:TokenName = "DO"; break;
-		case 263:TokenName = "WHILE"; break;
-		case 264:TokenName = "AND"; break;
-		case 265:TokenName = "OR"; break;
-		case 266:TokenName = "EQ"; break;
-		case 267:TokenName = "GE"; break;
-		case 268:TokenName = "LE"; break;
-		case 269:TokenName = "NEQ"; break;
-		case 270:TokenName = "INT"; break;
-		case 271:TokenName = "CHARACTER"; break;
-		}
-		return "<TokenName=" + TokenName + "," + "value=" + lexeme + ">";
-	}
 
-	string getValue()
-	{
-		return lexeme;
-	}
+	string display();
+
+	string getValue();
 
 };
 
@@ -227,3 +163,5 @@ public:
 	}
 };
 
+//使name能和其他部分匹配，转为字符串
+string convertName(int name);
