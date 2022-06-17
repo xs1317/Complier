@@ -61,6 +61,7 @@ void backpatch(list<int> l, int instr)
 }
 
 
+//每一条产生式对应的语义动作
 #pragma region  SDTaction
 ParserItem transP0(production p, vector<ParserItem> items)
 {
@@ -687,7 +688,6 @@ public:
 	vector <class Token*> TokenList;   //词法单元序列
 	vector<unordered_map<string, int>> GOTOtable;
 	vector <unordered_map<string, Actioncell>> ACTIONtable;
-
 	string formulaPath = "formula.txt";
 
 	Parser(vector<class Token*> T,SLR s)
@@ -832,13 +832,15 @@ public:
 int main()
 { 
 
-	vector<string> sourcePath = { "sourceCode.txt","sourceCode1.txt","sourceCode2.txt","sourceCode3.txt" ,"sourceCode4.txt" ,"sourceCode5.txt" };
-	vector<string> tokenPath = { "Token.txt","Token1.txt","Token2.txt","Token3.txt" ,"Token4.txt" ,"Token5.txt" };
+	vector<string> sourcePath = { "sourceCode0.txt","sourceCode1.txt","sourceCode2.txt","sourceCode3.txt" ,"sourceCode4.txt" ,"sourceCode5.txt" };
+	vector<string> tokenPath = { "Token0.txt","Token1.txt","Token2.txt","Token3.txt" ,"Token4.txt" ,"Token5.txt" };
+	vector<string> formulaPath = { "formula0.txt" ,"formula1.txt" ,"formula2.txt" ,"formula3.txt" ,"formula4.txt","formula5.txt" };
 	cout << endl; cout << endl; cout << endl; cout << endl;
 
+	//输出文法信息
 	wfdata.outProductions("productionsId.txt");
 
-
+	//初始化SLR分析表
 	SLR mySLR;
 	mySLR.buildstates();
 	mySLR.showAllstates();
@@ -847,8 +849,8 @@ int main()
 	mySLR.showSLR();
 	
 	Lexer lexer = Lexer();
-
 	Parser parser(lexer.TokenList, mySLR);
+	//初始化语义动作
 	initTrans();
 	while (true)
 	{
@@ -857,23 +859,40 @@ int main()
 		nextquad = 0;
 		tempV.resize(0);
 
-		int selection;
-		cout << endl;
-		cin >> selection;
-		if (selection < sourcePath.size())
+		//选择需要分析的源文件
+		int selection = -1;
+		cout << "请选择文件:0~5" << endl;
+		cin >> selection ;
+		while (cin.fail())
 		{
+			cout << "输入格式错误：重新输入" << endl; ;
+			cin.clear();
+			cin.ignore(15,'\n');
+			cin >> selection;
+
+		}
+
+
+		if (selection < sourcePath.size() && selection >= 0)
+		{
+			//初始化数据源、词法单元序列输出文件、四元式输出文件
 			lexer.sourceCodePath = sourcePath[selection];
 			lexer.tokenOutPath = tokenPath[selection];
+			parser.formulaPath = formulaPath[selection];
+
+			//初始化lexer
+			lexer.init();
+			lexer.getInput();
+			//若词法分析器未出现错误进行语法分析和语义分析
+			if (lexer.scanAll())
+			{
+				lexer.showTokenList();
+				parser.TokenList = lexer.TokenList;
+				parser.parsing();
+				parser.showFormula();
+			}
 		}
-		lexer.init();
-		lexer.getInput();
-		if (lexer.scanAll()) 
-		{
-			lexer.showTokenList();
-			parser.TokenList = lexer.TokenList;
-			parser.parsing();
-			parser.showFormula();
-		}
+
 
 	}
 

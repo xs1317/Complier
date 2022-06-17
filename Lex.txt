@@ -1,6 +1,0 @@
-<TokenName={,value=Null><TokenName=CHARACTER,value=a><TokenName=;,value=Null>
-<TokenName=CHARACTER,value=A><TokenName=;,value=Null>
-<TokenName=CHARACTER,value=~><TokenName=;,value=Null>
-<TokenName=INTEGER,value=1990><TokenName=;,value=Null>
-<TokenName=ID,value=xushuo><TokenName=;,value=Null>
-<TokenName=},value=Null><TokenName=!EOF!,value=Null>
