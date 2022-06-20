@@ -1,0 +1,5 @@
+<TokenName={,value=Null><TokenName=IF,value=if><TokenName=(,value=Null><TokenName=ID,value=j><TokenName=>,value=Null><TokenName=INTEGER,value=15><TokenName=),value=Null><TokenName={,value=Null><TokenName=ID,value=j><TokenName==,value=Null><TokenName=INTEGER,value=20><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=ELSE,value=else><TokenName=IF,value=if><TokenName=(,value=Null><TokenName=ID,value=j><TokenName=<,value=Null><TokenName=INTEGER,value=10><TokenName=),value=Null><TokenName={,value=Null><TokenName=ID,value=j><TokenName==,value=Null><TokenName=INTEGER,value=9><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=ELSE,value=else><TokenName=IF,value=if><TokenName=(,value=Null><TokenName=ID,value=j><TokenName=EQ,value===><TokenName=INTEGER,value=10><TokenName=),value=Null><TokenName={,value=Null><TokenName=ID,value=j><TokenName==,value=Null><TokenName=INTEGER,value=7><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=ELSE,value=else><TokenName={,value=Null><TokenName=ID,value=j><TokenName==,value=Null><TokenName=INTEGER,value=13><TokenName=;,value=Null>
+<TokenName=},value=Null><TokenName=},value=Null><TokenName=!EOF!,value=Null>

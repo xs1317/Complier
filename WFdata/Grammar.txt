@@ -1,0 +1,74 @@
+S -> statements
+
+constant -> integer
+constant -> character
+
+whileStatement -> 'while' M '(' T ')' M statement
+
+selectionStatement -> 'if' '(' T ')' M statement
+selectionStatement -> 'if' '(' T ')' M statement N 'else' M statement
+
+statement -> selectionStatement
+statement -> whileStatement
+statement -> compoundStatement
+statement -> expressionStatement
+
+expressionStatement -> expression ';'
+expressionStatement -> ';'
+
+compoundStatement -> '{' declaration statements '}'
+
+statements -> statements M statement
+statements -> '#'
+
+typeSpecifier -> 'int'
+typeSpecifier -> 'char'
+
+declaration -> typeSpecifier  initDeclarator ';' declaration
+declaration -> typeSpecifier  ';'
+declaration -> '#'
+
+initDeclarator ->  ID
+initDeclarator ->  ID '=' assignmentExp
+
+expression -> assignmentExp
+expression -> expression ',' assignmentExp
+
+assignmentExp -> logicalOrExp
+assignmentExp -> ID '=' logicalOrExp
+
+logicalOrExp -> logicalAndExp
+logicalOrExp -> logicalOrExp '||' M logicalAndExp
+logicalAndExp -> equalityExp
+logicalAndExp -> logicalAndExp '&&' M equalityExp
+
+equalityExp -> relationalExp
+equalityExp -> equalityExp '==' relationalExp
+equalityExp -> equalityExp '!=' relationalExp
+
+relationalExp -> additiveExp
+relationalExp -> relationalExp '<' additiveExp
+relationalExp -> relationalExp '<=' additiveExp
+relationalExp -> relationalExp '>' additiveExp
+relationalExp -> relationalExp '>=' additiveExp
+
+additiveExp -> multiplicativeExp
+additiveExp -> additiveExp '+' multiplicativeExp
+additiveExp -> additiveExp '-' multiplicativeExp
+
+multiplicativeExp -> unaryExp	
+multiplicativeExp -> multiplicativeExp '*' unaryExp
+multiplicativeExp -> multiplicativeExp '/' unaryExp
+
+unaryExp -> primaryExp
+unaryExp -> '-' primaryExp
+unaryExp -> '+' primaryExp
+
+primaryExp -> ID
+primaryExp -> constant
+primaryExp -> '(' expression ')'
+
+M -> '#'
+N -> '#'
+
+T -> expression
